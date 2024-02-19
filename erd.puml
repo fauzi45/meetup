@@ -1,0 +1,85 @@
+@startuml Users_ERD
+
+entity Users {
+  user_id : int [PK]
+  username : string
+  email : string
+  bio : string
+  password : string
+  image_url : string
+  image_id : int
+  created_at : datetime
+  updated_at : datetime
+  deleted_at : datetime
+}
+
+entity Meetups {
+  id : int [PK]
+  title : description
+  category_id : int [FK]
+  image_url : string
+  image_id : string
+  location : string
+  lat : float
+  long : float
+  date : datetime
+  start_time : time
+  finish_time : time
+  capacity : int
+  status : string
+  organizer_id : int [FK]
+  created_at : datetime
+  updated_at : datetime
+  deleted_at : datetime
+}
+
+entity Categories {
+  id: int [PK]
+  name: string
+  created_at : datetime
+  updated_at : datetime
+  deleted_at : datetime
+}
+
+entity Meetups_Categories{
+  id: int [PK]
+  meetup_id : int [FK]
+  category_id : int [FK]
+  created_at : datetime
+  updated_at : datetime
+}
+
+entity Attendees{
+  id: int [PK]
+  user_id: int [FK]
+  meetup_id: int [FK]
+  created_at: datetime
+  updated_at : datetime
+}
+
+entity Comments{
+  id: int [PK]
+  user_id: int [FK]
+  meetup_id: int [FK]
+  content: string
+  created_at: datetime
+  updated_at : datetime
+}
+
+Users }|..|| Meetups
+Users }|..|| Attendees
+Users }|..|| Comments
+
+Meetups }|..|| Meetups_Categories
+Meetups }|..|| Attendees
+
+Categories }|..|| Meetups_Categories
+
+Comments }|..|| Users
+Comments }|..|| Meetups
+
+
+
+
+
+@enduml
