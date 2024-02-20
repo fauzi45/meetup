@@ -10,26 +10,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Meetups.belongsTo(models.Category, {
+        foreignKey: "category_id",
+      });
     }
   }
   Meetups.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    category_id: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    image_id: DataTypes.STRING,
+    category_id: DataTypes.INTEGER,
+    image: DataTypes.JSON,
     lat: DataTypes.STRING,
     long: DataTypes.STRING,
-    date: DataTypes.DATE,
-    time: DataTypes.TIME,
+    date: DataTypes.DATEONLY,
+    start_time: DataTypes.TIME,
+    finish_time: DataTypes.TIME,
     capacity: DataTypes.INTEGER,
     status: DataTypes.STRING,
     organizer_id: DataTypes.INTEGER,
-    deleted_at: DataTypes.DATE
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Meetups',
+    paranoid: true
   });
   return Meetups;
 };

@@ -1,6 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const Boom = require('boom');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 
 const app = express();
 const Port = process.env.NODEJS_PORT || 8080;
@@ -8,11 +12,14 @@ const Port = process.env.NODEJS_PORT || 8080;
 // Import routes
 const Auth = require('./server/api/auth');
 const Category = require('./server/api/category');
+const Meetup = require('./server/api/meetup');
 dotenv.config();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Handling Invalid Input
 app.use((error, req, res, next) => {
@@ -71,6 +78,7 @@ app.use((req, res, next) => {
 // Route middlewares
 app.use('/', Auth);
 app.use('/api/category', Category);
+app.use('/api/meetup', Meetup);
 
 // Sys ping api 
 app.get('/sys/ping', (req, res) => {
