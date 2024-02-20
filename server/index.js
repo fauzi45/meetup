@@ -7,8 +7,7 @@ const Port = process.env.NODEJS_PORT || 8080;
 
 // Import routes
 const Auth = require('./server/api/auth');
-const Blog = require('./server/api/blog');
-
+const Category = require('./server/api/category');
 dotenv.config();
 
 // Middleware
@@ -71,7 +70,7 @@ app.use((req, res, next) => {
 
 // Route middlewares
 app.use('/', Auth);
-app.use('/blog', Blog);
+app.use('/api/category', Category);
 
 // Sys ping api 
 app.get('/sys/ping', (req, res) => {
