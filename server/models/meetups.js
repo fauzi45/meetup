@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       Meetups.hasMany(models.Attendees, {
         foreignKey: "meetup_id",
       });
+      Meetups.hasMany(models.Comments, {
+        foreignKey: "meetup_id",
+      });
     }
   }
   Meetups.init({
