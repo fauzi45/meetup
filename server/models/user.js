@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Comments, {
         foreignKey: "user_id",
       });
+      User.hasMany(models.Meetups, {
+        foreignKey: "organizer_id",
+      });
     }
   }
   User.init({
@@ -23,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     bio: DataTypes.STRING,
+    location: DataTypes.STRING,
     role: DataTypes.INTEGER,
     image_url: DataTypes.STRING,
     image_id: DataTypes.STRING,

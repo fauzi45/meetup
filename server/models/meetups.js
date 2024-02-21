@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       Meetups.belongsTo(models.Category, {
         foreignKey: "category_id",
       });
+      Meetups.belongsTo(models.User, {
+        foreignKey: "organizer_id",
+      });
       Meetups.hasMany(models.Attendees, {
         foreignKey: "meetup_id",
       });
