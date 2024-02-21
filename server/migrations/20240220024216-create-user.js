@@ -21,6 +21,9 @@ module.exports = {
       bio: {
         type: Sequelize.STRING
       },
+      location: {
+        type: Sequelize.STRING
+      },
       role: {
         type: Sequelize.INTEGER
       },
