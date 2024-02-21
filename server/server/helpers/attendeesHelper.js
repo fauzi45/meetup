@@ -41,7 +41,7 @@ const attendMeetupHelper = async (id, dataToken) => {
     });
     return Promise.resolve(true);
   } catch (err) {
-    console.log([fileName, "getMeetupListHelperUser", "ERROR"], {
+    console.log([fileName, "attendMeetupHelper", "ERROR"], {
       info: `${err}`,
     });
     return Promise.reject(GeneralHelper.errorResponse(err));
@@ -77,7 +77,7 @@ const deleteAttendMeetupHelper = async (id, dataToken) => {
     });
     return Promise.resolve(true);
   } catch (err) {
-    console.log([fileName, "getMeetupListHelperUser", "ERROR"], {
+    console.log([fileName, "deleteAttendMeetupHelper", "ERROR"], {
       info: `${err}`,
     });
     return Promise.reject(GeneralHelper.errorResponse(err));
