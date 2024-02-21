@@ -13,6 +13,8 @@ const Port = process.env.NODEJS_PORT || 8080;
 const Auth = require('./server/api/auth');
 const Category = require('./server/api/category');
 const Meetup = require('./server/api/meetup');
+const Attendees = require('./server/api/attendees');
+
 dotenv.config();
 
 // Middleware
@@ -78,6 +80,7 @@ app.use((req, res, next) => {
 app.use('/', Auth);
 app.use('/api/category', Category);
 app.use('/api/meetup', Meetup);
+app.use('/api/attend', Attendees);
 
 // Sys ping api 
 app.get('/sys/ping', (req, res) => {
