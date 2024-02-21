@@ -21,8 +21,6 @@ const getListCategoryUser = async () => {
 };
 
 
-
-
 //admin
 const getListCategoryAdmin = async (dataToken) => {
   try {

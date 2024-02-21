@@ -24,8 +24,6 @@ const listCategoryUser = async (req, res) => {
   }
 };
 
-
-
 //admin
 const listCategoryAdmin = async (req, res) => {
   try {
@@ -44,6 +42,7 @@ const listCategoryAdmin = async (req, res) => {
 const detailCategoryAdmin = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
+    Validation.idValidation(req.params);
     const { id } = req.params;
     const response = await categoryHelper.getDetailCategoryAdmin(id, dataToken);
     return res.send({
@@ -78,7 +77,7 @@ const createCategoryAdmin = async (req, res) => {
 const updateCategoryAdmin = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
-    Validation.idCategoryValidation(req.params);
+    Validation.idValidation(req.params);
     Validation.createCategoryValidation(req.body);
     const { id } = req.params;
     const { name } = req.body;
@@ -96,7 +95,7 @@ const updateCategoryAdmin = async (req, res) => {
 const deleteCategoryAdmin = async (req, res) => {
     try {
       const dataToken = req.body.dataToken;
-      Validation.idCategoryValidation(req.params);
+      Validation.idValidation(req.params);
       const { id } = req.params;
       const response = await categoryHelper.deleteCategoryAdmin(id, dataToken);
       return res.status(200).send({
