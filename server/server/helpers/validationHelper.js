@@ -36,7 +36,37 @@ const createCategoryValidation = (data) => {
   }
 };
 
-const idCategoryValidation = (data) => {
+const createMeetupValidation = (data) => {
+  const timeRegex = /^\d{2}:\d{2}/;
+  const schema = Joi.object({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    category_id: Joi.number().required(),
+    lat: Joi.string().required(),
+    long: Joi.string().required(),
+    date: Joi.date().required(),
+    start_time: Joi.string().regex(timeRegex).required(),
+    finish_time: Joi.string().regex(timeRegex).required(),
+    capacity: Joi.number().required(),
+    dataToken: Joi.object().required(),
+  });
+
+  if (schema.validate(data).error) {
+    throw Boom.badRequest(schema.validate(data).error);
+  }
+};
+
+const imageValidation = (data) => {
+  const schema = Joi.object({
+    image: Joi.array().required(),
+  });
+
+  if (schema.validate(data).error) {
+    throw Boom.badRequest(schema.validate(data).error);
+  }
+}; 
+
+const idValidation = (data) => {
   const schema = Joi.object({
     id: Joi.number().required(),
   });
@@ -49,7 +79,9 @@ const idCategoryValidation = (data) => {
 module.exports = {
   registerValidation,
   loginValidation,
+  idValidation,
+  imageValidation,
 
   createCategoryValidation,
-  idCategoryValidation
+  createMeetupValidation
 };

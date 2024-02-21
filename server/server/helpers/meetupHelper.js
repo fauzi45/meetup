@@ -19,7 +19,6 @@ const getMeetupListHelperUser = async (dataToken) => {
       );
     }
     const checkMeetup = await db.Meetups.findAll({
-      where: { status: "Accept" },
       order: [["createdAt", "DESC"]],
       attributes: { exclude: ["updatedAt"] },
       include: [
@@ -112,6 +111,65 @@ const createMeetupUser = async (dataObject, dataToken) => {
   }
 };
 
+const updateMeetupUser = async (id, dataObject, dataToken) => {
+  const {
+    title,
+    description,
+    category_id,
+    lat,
+    long,
+    date,
+    start_time,
+    finish_time,
+    capacity,
+  } = dataObject;
+  try {
+    const checkAuthorization = await db.Meetups.findOne({
+      where: { organizer_id: dataToken.id },
+    });
+    if (_.isEmpty(checkAuthorization)) {
+      return Promise.reject(
+        Boom.unauthorized("You are not authorized to update this data")
+      );
+    }
+    const checkMeetup = await db.Meetups.findOne({
+      where: { id: id },
+    });
+    console.log(title, "<<<<<");
+    if (!checkMeetup) {
+      return Promise.reject(
+        Boom.badRequest("Meetup with this id is doesn't exist")
+      );
+    }
+    await db.Meetups.update(
+      {
+        title: title ? title : checkMeetup.dataValues.title,
+        description: description
+          ? description
+          : checkMeetup.dataValues.description,
+        category_id: category_id
+          ? category_id
+          : checkMeetup.dataValues.category_id,
+        lat: lat ? lat : checkMeetup.dataValues.lat,
+        long: long ? long : checkMeetup.dataValues.long,
+        date: date ? date : checkMeetup.dataValues.date,
+        start_time: start_time ? start_time : checkMeetup.dataValues.start_time,
+        finish_time: finish_time
+          ? finish_time
+          : checkMeetup.dataValues.finish_time,
+        capacity: capacity ? capacity : checkMeetup.dataValues.capacity,
+      },
+      { where: { id: id } }
+    );
+    return Promise.resolve(true);
+  } catch (err) {
+    console.log([fileName, "updateMeetupUser", "ERROR"], {
+      info: `${err}`,
+    });
+    return Promise.reject(GeneralHelper.errorResponse(err));
+  }
+};
+
 const deleteMeetupHelperUser = async (id, dataToken) => {
   try {
     const checkAuthorization = await db.User.findOne({
@@ -156,4 +214,5 @@ module.exports = {
   createMeetupUser,
   getMeetupDetailHelperUser,
   deleteMeetupHelperUser,
+  updateMeetupUser,
 };
