@@ -14,7 +14,7 @@ const Auth = require('./server/api/auth');
 const Category = require('./server/api/category');
 const Meetup = require('./server/api/meetup');
 const Attendees = require('./server/api/attendees');
-
+const Comment = require('./server/api/comment');
 dotenv.config();
 
 // Middleware
@@ -81,6 +81,7 @@ app.use('/', Auth);
 app.use('/api/category', Category);
 app.use('/api/meetup', Meetup);
 app.use('/api/attend', Attendees);
+app.use('/api/comment', Comment);
 
 // Sys ping api 
 app.get('/sys/ping', (req, res) => {
