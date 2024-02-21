@@ -22,6 +22,19 @@ const attendMeetupHelper = async (id, dataToken) => {
         Boom.badRequest("Meetup with this id is not available")
       );
     }
+
+    const checkorganizer = await db.Meetups.findOne({
+      where: {
+        organizer_id: dataToken.id,
+      },
+    });
+
+    if (!_.isEmpty(checkorganizer)) {
+      return Promise.reject(
+        Boom.badRequest("You are Organizer, You cant attend this meetup")
+      );
+    }
+
     const existingAttendance = await db.Attendees.findOne({
       where: {
         user_id: dataToken.id,
