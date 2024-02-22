@@ -18,7 +18,7 @@ const register = async (request, reply) => {
       username: decryptUsername,
       email: decryptEmail,
       password: decryptPassword,
-      confirmPassword: decryptConfirmPosition
+      confirmPassword: decryptConfirmPosition,
     });
 
     return reply.send(response);
@@ -30,10 +30,13 @@ const register = async (request, reply) => {
 
 const login = async (request, reply) => {
   try {
-    const decryptedData = Decryptor.decryptObject(request.body);
-    Validation.loginValidation(decryptedData);
-    const { email, password } = decryptedData;
-    const response = await AuthHelper.login({ email, password });
+    const { email, password } = request.body;
+    const decryptEmail = decryptObject(email);
+    const decryptPassword = decryptObject(password);
+    const response = await AuthHelper.login({
+      email: decryptEmail,
+      password: decryptPassword,
+    });
 
     return reply.send(response);
   } catch (err) {

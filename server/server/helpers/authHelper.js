@@ -66,7 +66,7 @@ const login = async (dataObject) => {
 
     const isPassMatched = __comparePassword(password, user.password);
     if (!isPassMatched) {
-      return Promise.reject(Boom.badRequest("WRONG_CREDENTIALS"));
+      return Promise.reject(Boom.badRequest("Wrong Password"));
     }
 
     const token = __generateToken({
