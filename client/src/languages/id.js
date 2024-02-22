@@ -8,10 +8,13 @@ export default {
   app_popup_error_message: 'Maaf, telah terjadi kesalahan. Silakan coba beberapa saat lagi',
   app_popup_close_button_label: 'Tutup',
 
+  app_login: 'Login',
   app_sign_up: 'Daftar',
+  
   app_username: 'Nama Pengguna',
   app_password: 'Kata Sandi',
   app_repeat_password: 'Konfirmasi Kata Sandi',
   app_no_acc: 'Sudah punya akun?',
-  app_login_here: 'Login disini'
+  app_login_here: 'Login disini',
+  app_register_here: 'Daftar disini'
 };

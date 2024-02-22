@@ -8,10 +8,13 @@ export default {
   app_popup_error_message: 'Sorry, an error has occurred. Please try again later',
   app_popup_close_button_label: 'Close',
 
+  app_login: 'Login',
   app_sign_up: 'Sign Up',
   app_username: 'Username',
   app_password: 'Password',
   app_repeat_password: 'Repeat Password',
-  app_no_acc: 'Already have an account?',
-  app_login_here: 'Login here'
+  app_have_acc: 'Already have an account?',
+  app_no_acc: `Don't have an account?`,
+  app_login_here: 'Login here',
+  app_register_here: 'Register here'
 };
