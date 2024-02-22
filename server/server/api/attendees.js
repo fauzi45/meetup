@@ -14,11 +14,9 @@ const attendMeetup = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
     Validation.idValidation(req.params);
+    Validation.dataTokenValidation(dataToken);
     const { id } = req.params;
-    const response = await attendeesHelper.attendMeetupHelper(
-      id,
-      dataToken
-    );
+    const response = await attendeesHelper.attendMeetupHelper(id, dataToken);
     return res.send({
       message: "Attend success",
       data: response,
@@ -33,6 +31,7 @@ const deleteAttendMeetup = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
     Validation.idValidation(req.params);
+    Validation.dataTokenValidation(dataToken);
     const { id } = req.params;
     const response = await attendeesHelper.deleteAttendMeetupHelper(
       id,
@@ -47,8 +46,6 @@ const deleteAttendMeetup = async (req, res) => {
     return res.send(GeneralHelper.errorResponse(err));
   }
 };
-
-
 
 Router.post("/user/:id", Middleware.validateToken, attendMeetup);
 Router.delete("/delete/user/:id", Middleware.validateToken, deleteAttendMeetup);

@@ -76,12 +76,22 @@ const idValidation = (data) => {
   }
 }; 
 
+
+const dataTokenValidation = (data) => {
+  const schema = Joi.object({
+    dataToken: Joi.object().required(),
+  });
+
+  if (schema.validate(data).error) {
+    throw Boom.badRequest(schema.validate(data).error);
+  }
+}; 
 module.exports = {
   registerValidation,
   loginValidation,
   idValidation,
   imageValidation,
-
+  dataTokenValidation,
   createCategoryValidation,
   createMeetupValidation
 };
