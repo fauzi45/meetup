@@ -109,7 +109,7 @@ const Register = () => {
           <div className={classes.group}>
             <div className={classes.textacc}>
               <p>
-                <FormattedMessage id="app_no_acc" />
+                <FormattedMessage id="app_have_acc" />
               </p>
               <p onClick={() => navigate("/login")} className={classes.link}>
                 {' '}
