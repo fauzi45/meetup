@@ -1,0 +1,33 @@
+.container {
+  background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+  height: 350px;
+  margin-top: -100px;
+  @include directionY;
+  background-repeat: no-repeat;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  background-blend-mode: multiply;
+  background-position: bottom;
+  background-size: cover;
+  .content {
+    @include directionY;
+    align-items: center;
+    margin-top: 7rem;
+    .title {
+      color: $color-white;
+      width: fit-content;
+      font-size: 40px;
+      text-align: center;
+      font-style: italic;
+      font-weight: 600;
+    }
+    .desc {
+      color: $color-white;
+      font-size: 20px;
+      font-style: italic;
+      
+      text-align: center;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}
