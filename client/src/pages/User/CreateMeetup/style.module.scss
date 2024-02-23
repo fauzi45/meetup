@@ -1,0 +1,112 @@
+@import '../../../styles/base.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  @include directionY;
+  width: 100%;
+  background-color: #fffff0;
+  padding-bottom: 5rem;
+  .containercontent {
+    width: 60%;
+    padding-top: 2rem;
+    @include directionY;
+    justify-content: center;
+    margin: auto;
+    .inputUpload {
+      background-color: $color-white;
+      border: 1px solid $color-white-fade;
+      height: 200px;
+      @include directionX;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 39px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+    }
+    .inputTitle {
+      background-color: $color-white;
+      border: 1px solid grey;
+      height: 50px;
+      padding: 0 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+    }
+    .date {
+      justify-content: center;
+      width: 100%;
+      gap: 50px;
+    
+      @include apply-at-sm-size {
+        @include directionY;
+      }
+      @include apply-at-xs-size {
+        @include directionY;
+      }
+      @include apply-at-xl-size {
+        @include directionX;
+      }
+      @include apply-at-lg-size {
+        @include directionX;
+      }
+      .to {
+        margin-top: 0.6rem;
+        display: flex;
+        justify-content: center;
+      }
+      .inputDate {
+        background-color: $color-white;
+        display: flex;
+        align-items: center;
+        border: 1px solid grey;
+        height: 50px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+      }
+    }
+    .inputDesc {
+      @extend .inputTitle;
+      height: 100px;
+      padding: 20px 20px;
+    }
+    .subTitle {
+      color: $color-black;
+      font-family: 'Poppins', sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      margin-bottom: 20px;
+    }
+    .description {
+      background-color: #fff;
+      height: 215px;
+      justify-content: center;
+    }
+    .post {
+      @include directionX;
+      cursor: pointer;
+      justify-content: end;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .maps {
+      height: 300px;
+    }
+  }
+}

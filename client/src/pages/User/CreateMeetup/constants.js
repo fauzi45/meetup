@@ -1,0 +1,3 @@
+export const SET_LOCATION = 'SET_LOCATION';
+
+export const ADD_NEW_MEETUP = 'ADD_NEW_MEETUP'

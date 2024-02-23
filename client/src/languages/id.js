@@ -10,11 +10,23 @@ export default {
 
   app_login: 'Login',
   app_sign_up: 'Daftar',
-  
+
   app_username: 'Nama Pengguna',
   app_password: 'Kata Sandi',
   app_repeat_password: 'Konfirmasi Kata Sandi',
   app_no_acc: 'Sudah punya akun?',
   app_login_here: 'Login disini',
-  app_register_here: 'Daftar disini'
+  app_register_here: 'Daftar disini',
+
+  //create-meetup
+  app_jumbotron_title: 'Mulai sebuah meetup baru',
+  app_jumbotron_description: `Kami akan membantu Anda menemukan orang yang tepat untuk mewujudkannya`,
+  app_create_meetup_title: `Apa nama Meetup Anda?`,
+  app_create_meetup_title_placeholder: 'Judul Meetup Anda...',
+  app_create_meetup_description: 'Jelaskan siapa saja yang harus bergabung, dan apa yang akan dilakukan dalam Meetup Anda',
+  app_create_meetup_description_placeholder: 'Deksripsi...',
+  app_create_meetup_category: 'Kategori',
+  app_create_meetup_location: 'Dimana pertemuan Anda akan diadakan?',
+  app_create_meetup_when: 'Kapan pertemuan Anda akan diadakan?',
+  app_create_meetup_fullAddress: 'Alamat Lengkap'
 };
