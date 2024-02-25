@@ -28,13 +28,19 @@ module.exports = {
         image: {
           type: Sequelize.JSON,
         },
+        full_address: {
+          type: Sequelize.STRING,
+        },
         lat: {
           type: Sequelize.STRING,
         },
         long: {
           type: Sequelize.STRING,
         },
-        date: {
+        start_date: {
+          type: Sequelize.DATEONLY,
+        },
+        finish_date: {
           type: Sequelize.DATEONLY,
         },
         start_time: {

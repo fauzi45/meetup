@@ -3,8 +3,6 @@ const dotenv = require('dotenv');
 const Boom = require('boom');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const multer = require('multer');
-const upload = multer();
 
 const app = express();
 const Port = process.env.NODEJS_PORT || 8080;
