@@ -28,5 +28,12 @@ export default {
   app_create_meetup_category: 'Kategori',
   app_create_meetup_location: 'Dimana pertemuan Anda akan diadakan?',
   app_create_meetup_when: 'Kapan pertemuan Anda akan diadakan?',
-  app_create_meetup_fullAddress: 'Alamat Lengkap'
+  app_create_meetup_fullAddress: 'Alamat Lengkap',
+  app_create_meetup_to: 'Sampai',
+  app_create_meetup_capacity: 'Kapasitas',
+  app_create_meetup_upload_image: 'Unggah Gambar',
+  app_create_meetup_drag_drop: 'Tarik & Lepas untuk Mengunggah Gambar',
+  app_create_meetup_drop: 'Lepas Gambar di sini',
+  app_create_meetup_drag_drop_or: 'Tarik & Lepas Gambar di sini atau',
+  app_create_meetup_browse: 'Pilih'
 };

@@ -28,5 +28,12 @@ export default {
   app_create_meetup_category: 'Category',
   app_create_meetup_location: 'Where will your meetup be held?',
   app_create_meetup_when: 'When will your meetup be held?',
-  app_create_meetup_fullAddress: 'Full Address'
+  app_create_meetup_fullAddress: 'Full Address',
+  app_create_meetup_to: 'To',
+  app_create_meetup_capacity: 'Capacity',
+  app_create_meetup_upload_image: 'Upload Image',
+  app_create_meetup_drag_drop: 'Drag & Drop Image Uploading',
+  app_create_meetup_drop: 'Drop Images Here',
+  app_create_meetup_drag_drop_or: 'Drag & Drop Image here or',
+  app_create_meetup_browse: 'Browse'
 };

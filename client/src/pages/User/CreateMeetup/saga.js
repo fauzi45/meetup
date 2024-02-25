@@ -1,17 +1,16 @@
 import { ADD_NEW_MEETUP } from './constants';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { setLoading, showPopup } from '@containers/App/actions';
+import { setLoading } from '@containers/App/actions';
 
-import toast from 'react-hot-toast';
+import { newMeetup } from '@domain/api';
 
-function* doNewMeetup({ data, cb }) {
+function* doNewMeetup({ payload, cb }) {
   yield put(setLoading(true));
   try {
-    yield call(newDepartment, data);
+    yield call(newMeetup, payload);
     cb();
-    toast.success('Meetup Successfully created');
   } catch (error) {
-    toast.error(error.response.data.message);
+    console.log(error);
   }
   yield put(setLoading(false));
 }

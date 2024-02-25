@@ -46,7 +46,7 @@
       justify-content: center;
       width: 100%;
       gap: 50px;
-    
+
       @include apply-at-sm-size {
         @include directionY;
       }
@@ -107,6 +107,100 @@
     }
     .maps {
       height: 300px;
+    }
+    .card {
+      padding: 10px;
+      box-shadow: 0 0 5px #ffdfdf;
+      border-radius: 5px;
+      overflow: hiddem;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      .top {
+        text-align: center;
+        .title {
+          font-weight: bold;
+          color: #0086fe;
+        }
+      }
+      .dragArea {
+        height: 150px;
+        border-radius: 5px;
+        border: 2px dashed #0086fe;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        -webkit-user-select: none;
+        margin-top: 10px;
+        .visible {
+          font-size: 18px;
+        }
+        .select {
+          color: #5256ad;
+          margin-left: 5px;
+          cursor: pointer;
+          transition: 0.4s;
+          -webkit-transition: 0.4s;
+          -moz-transition: 0.4s;
+          -ms-transition: 0.4s;
+          -o-transition: 0.4s;
+        }
+        .select:hover {
+          opacity: 0.6;
+        }
+      }
+      .dragArea .visible {
+        font-size: 18px;
+      }
+      .container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 10px;
+        .image {
+          width: 75px;
+          margin-right: 5px;
+          height: 75px;
+          position: relative;
+          margin-bottom: 8px;
+          .delete {
+            z-index: 999;
+            color: #0086fe;
+          }
+        }
+        .image img {
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+        }
+        .image span {
+          position: absolute;
+          top: -2px;
+          right: 9px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+    .card input,
+    .card .dragArea .ondrop,
+    .card .dragArea.dragover .visible {
+      display: none;
     }
   }
 }

@@ -5,7 +5,7 @@ export const setLocation = (payload) => ({
   payload,
 });
 
-export const addNewDepartment = (payload, cb) => ({
+export const addNewMeetup = (payload, cb) => ({
   type: ADD_NEW_MEETUP,
   payload,
   cb,

@@ -6,7 +6,9 @@ import request from '@utils/request';
 const urls = {
   ping: 'ping.json',
   register: 'auth/register',
-  login: 'auth/login'
+  login: 'auth/login',
+
+  createMeetup: 'meetup/user/create'
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -36,3 +38,6 @@ export const register = (data) => {
 export const login = (data) => {
   return callAPI(urls.login, 'POST', {}, {}, data);
 };
+
+export const newMeetup = (data) =>
+  callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
