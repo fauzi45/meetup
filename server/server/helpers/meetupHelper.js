@@ -43,7 +43,7 @@ const getMeetupListHelperUser = async (dataToken) => {
 const getMeetupDetailHelperUser = async (id) => {
   try {
     const checkMeetup = await db.Meetups.findOne({
-      where: { status: "Accept", id: id },
+      where: { id: id },
       attributes: { exclude: ["updatedAt"] },
       include: [
         {
