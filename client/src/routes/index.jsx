@@ -37,7 +37,7 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: '/meetup',
+    path: '/meetup/:id',
     name: 'Detail Meetup',
     protected: false,
     component: DetailMeetup,
