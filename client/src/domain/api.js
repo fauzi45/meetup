@@ -8,7 +8,8 @@ const urls = {
   register: 'auth/register',
   login: 'auth/login',
 
-  createMeetup: 'meetup/user/create'
+  createMeetup: 'meetup/user/create',
+  detailMeetup: 'meetup/user/detail',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -41,3 +42,4 @@ export const login = (data) => {
 
 export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
+export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
