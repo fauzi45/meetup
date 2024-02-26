@@ -1,0 +1,28 @@
+@import '../../styles/base.scss';
+
+.container {
+  border: 0.5px solid grey;
+  @include directionY;
+  padding: 1rem 0rem;
+  align-items: center;
+  gap: 0.3rem;
+  width: 130px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  .menuAvatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+  .name {
+    font-size: 20px;
+    text-align: center;
+  }
+  .member {
+    color: grey;
+    font-size: 14px;
+  }
+}
