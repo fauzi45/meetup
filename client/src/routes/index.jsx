@@ -5,6 +5,7 @@ import Register from '@pages/Auth/Register';
 import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
 import CreateMeetup from '@pages/User/CreateMeetup';
+import DetailMeetup from '@pages/User/DetailMeetup';
 
 const routes = [
   {
@@ -33,6 +34,13 @@ const routes = [
     name: 'Create Meetup',
     protected: false,
     component: CreateMeetup,
+    layout: MainLayout,
+  },
+  {
+    path: '/meetup',
+    name: 'Detail Meetup',
+    protected: false,
+    component: DetailMeetup,
     layout: MainLayout,
   },
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
