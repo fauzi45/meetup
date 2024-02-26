@@ -34,7 +34,7 @@ const SearchField = ({ searchControl }) => {
     dispatch(setLocation(e.location));
   });
 
-  map.on("click", function (e) {
+  map.on('click', function (e) {
     if (markerRef.current) {
       map.removeLayer(markerRef.current);
     }
@@ -51,7 +51,6 @@ const CreateMeetup = ({ meetupLocation }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const intl = useIntl();
-  const [images, setImages] = useState([]);
   const [image, setImage] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
@@ -79,7 +78,7 @@ const CreateMeetup = ({ meetupLocation }) => {
   function onDragOver(e) {
     e.preventDefault();
     setIsDragging(true);
-    e.dataTransfer.dropEffect = "copy";
+    e.dataTransfer.dropEffect = 'copy';
   }
 
   function onDragLeave(e) {
@@ -91,46 +90,20 @@ const CreateMeetup = ({ meetupLocation }) => {
     e.preventDefault();
     setIsDragging(false);
     const files = e.dataTransfer.files;
-    setImage([...image, ...files]);
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.split('/')[0] !== 'image') continue;
-      if (!images.some((e) => e.name === files[i].name)) {
-        setImages((prevImages) => [
-          ...prevImages,
-          {
-            name: files[i].name,
-            url: URL.createObjectURL(files[i]),
-          }
-        ]);
-      }
-    }
+    setImage((prevImages) => [...prevImages, ...files]);
   }
   function onFileSelect(e) {
     const files = e.target.files;
-    setImage(files);
-    if (files.length === 0) return 0;
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.split('/')[0] !== 'image') continue;
-      if (!images.some((e) => e.name === files[i].name)) {
-        setImages((prevImages) => [
-          ...prevImages,
-          {
-            name: files[i].name,
-            url: URL.createObjectURL(files[i]),
-          }
-        ]);
-      }
-    }
+    setImage((prevImages) => [...prevImages, ...files]);
   }
 
   function deleteImage(index) {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    const imageArray = Array.from(image); // Convert FileList to an array
+    const imageArray = Array.from(image);
     const filtered = imageArray.filter((_, i) => i !== index);
     setImage(filtered);
   }
 
-  console.log(image)
+  console.log(image);
   const submitData = () => {
     if (!formData.title) {
       toast.error('The Title cannot be empty');
@@ -144,15 +117,15 @@ const CreateMeetup = ({ meetupLocation }) => {
       toast.error('The Maps must be selected');
     } else if (!formData.start_date) {
       toast.error('The Start Date cannot be empty');
-    }else if (!formData.finish_date) {
+    } else if (!formData.finish_date) {
       toast.error('The Finish Date cannot be empty');
-    }else if (!formData.start_time) {
+    } else if (!formData.start_time) {
       toast.error('The Start Time cannot be empty');
-    }else if (!formData.finish_time) {
+    } else if (!formData.finish_time) {
       toast.error('The Finish Date cannot be empty');
-    }else if (!formData.capacity) {
+    } else if (!formData.capacity) {
       toast.error('The Capacity cannot be empty');
-    }else if (!image) {
+    } else if (!image) {
       toast.error('The Image cannot be empty');
     } else {
       const formDataSend = new FormData();
@@ -170,12 +143,16 @@ const CreateMeetup = ({ meetupLocation }) => {
       Array.from(image).forEach((file, index) => {
         formDataSend.append(`image`, file);
       });
-      dispatch(addNewMeetup(formDataSend, () => {
-        toast.success('Meetup Successfully created');
-        navigate('/');
-      }));
+      dispatch(
+        addNewMeetup(formDataSend, () => {
+          toast.success('Meetup Successfully created');
+          navigate('/');
+        })
+      );
     }
-  }
+  };
+
+  console.log(image);
 
   return (
     <div className={classes.container}>
@@ -203,7 +180,11 @@ const CreateMeetup = ({ meetupLocation }) => {
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_category" />
         </div>
-        <select value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: e.target.value })} className={classes.inputTitle}>
+        <select
+          value={formData.category_id}
+          onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+          className={classes.inputTitle}
+        >
           <option value="1">Hiking</option>
           <option value="1">Internet</option>
         </select>
@@ -232,11 +213,33 @@ const CreateMeetup = ({ meetupLocation }) => {
           <FormattedMessage id="app_create_meetup_when" />
         </div>
         <div className={classes.date}>
-          <input type="date" className={classes.inputDate} onChange={(e) => setFormData({ ...formData, start_date: e.target.value })} value={formData.start_date} />
-          <input type="time" className={classes.inputDate} onChange={(e) => setFormData({ ...formData, start_time: e.target.value })} value={formData.start_time} />
-          <p className={classes.to}><FormattedMessage id="app_create_meetup_to" /></p>
-          <input type="date" className={classes.inputDate} onChange={(e) => setFormData({ ...formData, finish_date: e.target.value })} value={formData.finish_date} />
-          <input type="time" className={classes.inputDate} onChange={(e) => setFormData({ ...formData, finish_time: e.target.value })} value={formData.finish_time} />
+          <input
+            type="date"
+            className={classes.inputDate}
+            onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+            value={formData.start_date}
+          />
+          <input
+            type="time"
+            className={classes.inputDate}
+            onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
+            value={formData.start_time}
+          />
+          <p className={classes.to}>
+            <FormattedMessage id="app_create_meetup_to" />
+          </p>
+          <input
+            type="date"
+            className={classes.inputDate}
+            onChange={(e) => setFormData({ ...formData, finish_date: e.target.value })}
+            value={formData.finish_date}
+          />
+          <input
+            type="time"
+            className={classes.inputDate}
+            onChange={(e) => setFormData({ ...formData, finish_time: e.target.value })}
+            value={formData.finish_time}
+          />
         </div>
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_capacity" />
@@ -252,7 +255,9 @@ const CreateMeetup = ({ meetupLocation }) => {
         </div>
         <div className={classes.card}>
           <div className={classes.top}>
-            <p className={classes.title}><FormattedMessage id="app_create_meetup_drag_drop" /></p>
+            <p className={classes.title}>
+              <FormattedMessage id="app_create_meetup_drag_drop" />
+            </p>
           </div>
           <div className={classes.dragArea} onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}>
             {isDragging ? (
@@ -261,17 +266,29 @@ const CreateMeetup = ({ meetupLocation }) => {
               </span>
             ) : (
               <>
-                <FormattedMessage id="app_create_meetup_drag_drop_or" /> {""}
-                <span className={classes.select} role='button' onClick={selectFiles}><FormattedMessage id="app_create_meetup_browse" /></span>
-              </>)
-            }
-            <input type="file" name='file' className={classes.file} multiple ref={fileInputRef} onChange={onFileSelect} accept="image/*" />
+                <FormattedMessage id="app_create_meetup_drag_drop_or" /> {''}
+                <span className={classes.select} role="button" onClick={selectFiles}>
+                  <FormattedMessage id="app_create_meetup_browse" />
+                </span>
+              </>
+            )}
+            <input
+              type="file"
+              name="file"
+              className={classes.file}
+              multiple
+              ref={fileInputRef}
+              onChange={onFileSelect}
+              accept="image/*"
+            />
           </div>
           <div className={classes.container}>
-            {images.map((image, index) => (
+            {image.map((image, index) => (
               <div className={classes.image} key={index}>
-                <span className={classes.delete} onClick={() => deleteImage(index)}>&times;</span>
-                <img src={image.url} alt={image.name} />
+                <span className={classes.delete} onClick={() => deleteImage(index)}>
+                  &times;
+                </span>
+                <img src={URL.createObjectURL(image)} alt={image.name} />
               </div>
             ))}
           </div>
