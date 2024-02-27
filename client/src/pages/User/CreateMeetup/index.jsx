@@ -151,9 +151,6 @@ const CreateMeetup = ({ meetupLocation }) => {
       );
     }
   };
-
-  console.log(image);
-
   return (
     <div className={classes.container}>
       <Jumbotron />
