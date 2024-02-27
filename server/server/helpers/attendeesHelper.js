@@ -48,6 +48,16 @@ const attendMeetupHelper = async (id, dataToken) => {
       );
     }
 
+    const countAttendees = await db.Attendees.count({
+      where: {
+        meetup_id: id,
+      },
+    });
+
+    if (countAttendees >= checkMeetup.capacity) {
+      return Promise.reject(Boom.badRequest("Capacity is full"));
+    }
+
     await db.Attendees.create({
       user_id: dataToken.id,
       meetup_id: id,
@@ -72,7 +82,7 @@ const listAttendMeetupHelper = async (id) => {
       );
     }
     const checkAttendance = await db.Attendees.findAll({
-      where: {meetup_id: id},
+      where: { meetup_id: id },
       order: [["createdAt", "DESC"]],
       attributes: { exclude: ["updatedAt"] },
       include: [
@@ -83,7 +93,7 @@ const listAttendMeetupHelper = async (id) => {
       ],
     });
     if (_.isEmpty(checkAttendance)) {
-      return null
+      return null;
     }
     return Promise.resolve(checkAttendance);
   } catch (err) {

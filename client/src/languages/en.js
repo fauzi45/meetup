@@ -47,4 +47,5 @@ export default {
   app_detail_meetup_comment_send: 'Send',
   app_detai_meetup_attend: 'Attend',
   app_detai_meetup_attended: 'Attended',
+  app_detai_meetup_member_notfound: 'Member still empty',
 };

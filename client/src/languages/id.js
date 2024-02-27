@@ -48,4 +48,6 @@ export default {
   app_detail_meetup_comment_send: 'Kirim',
   app_detai_meetup_attend: 'Hadir',
   app_detai_meetup_attended: 'Dihadiri',
+  app_detai_meetup_member_notfound: 'Anggota masih kosong',
+
 };

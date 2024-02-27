@@ -1,4 +1,11 @@
-import { ADD_ATTEND_MEETUP, GET_DETAIL_MEETUP, GET_MEMBER_MEETUP, SET_DETAIL_MEETUP, SET_MEMBER_MEETUP } from './constants';
+import {
+  ADD_ATTEND_MEETUP,
+  DELETE_ATTEND_MEETUP,
+  GET_DETAIL_MEETUP,
+  GET_MEMBER_MEETUP,
+  SET_DETAIL_MEETUP,
+  SET_MEMBER_MEETUP,
+} from './constants';
 
 export const getDetailMeetup = (id, cb) => ({
   type: GET_DETAIL_MEETUP,
@@ -25,5 +32,12 @@ export const setMemberMeetup = (dataMember) => ({
 export const addAttendMeetup = (payload, cb) => ({
   type: ADD_ATTEND_MEETUP,
   payload,
-  cb
+  cb,
 });
+
+export const deleteAttendMeetup = (payload, cb) => ({
+  type: DELETE_ATTEND_MEETUP,
+  payload,
+  cb,
+});
+
