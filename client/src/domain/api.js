@@ -10,6 +10,8 @@ const urls = {
 
   createMeetup: 'meetup/user/create',
   detailMeetup: 'meetup/user/detail',
+  memberMeetup: 'attend/meetup',
+  addAttend: 'attend/user',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -43,3 +45,7 @@ export const login = (data) => {
 export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
 export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
+export const memberMeetup = (id) => callAPI(`${urls.memberMeetup}/${id}`, 'GET');
+export const addAttend = (id) => {
+  return callAPI(`${urls.addAttend}/${id}`, 'POST');
+};
