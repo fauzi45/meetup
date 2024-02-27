@@ -55,7 +55,7 @@ export const addAttend = (id) => {
 export const deleteAttend = (id) => {
   return callAPI(`${urls.deleteAttend}/${id}`, 'DELETE');
 };
-export const memberComment = (id) => callAPI(`${urls.commentMeetup}/${id}`, 'GET');
+export const memberComment = (id, page) => callAPI(`${urls.commentMeetup}/${id}`, 'GET', {}, { page });
 export const addComment = (id, data) => {
   return callAPI(`${urls.addComment}/${id}`, 'POST', {}, {}, data);
 };

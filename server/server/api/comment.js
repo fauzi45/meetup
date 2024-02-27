@@ -54,7 +54,22 @@ const listCommentMeetup = async (req, res) => {
   try {
     Validation.idValidation(req.params);
     const { id } = req.params;
-    const response = await commentHelper.listCommentMeetupHelper(id);
+    const page = req.query.page || 1; // Default page is 1
+    const pageSize = 5; // Default page size is 10
+
+    const response = await commentHelper.listCommentMeetupHelper(
+      id,
+      page,
+      pageSize
+    );
+
+    if (!response) {
+      return res.send({
+        message: "No comments found for this meetup",
+        data: [],
+      });
+    }
+
     return res.send({
       message: "List Comment successfully received",
       data: response,

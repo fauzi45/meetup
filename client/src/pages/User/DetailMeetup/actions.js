@@ -43,9 +43,10 @@ export const deleteAttendMeetup = (payload, cb) => ({
   cb,
 });
 
-export const getCommentMeetup = (id) => ({
+export const getCommentMeetup = (id, page) => ({
   type: GET_COMMENT_MEETUP,
   id,
+  page
 });
 
 export const setCommentMeetup = (dataComment) => ({

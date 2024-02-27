@@ -37,7 +37,7 @@ const commentMeetupHelper = async (id, content, dataToken) => {
   }
 };
 
-const listCommentMeetupHelper = async (id) => {
+const listCommentMeetupHelper = async (id, page, pageSize) => {
   try {
     const checkMeetup = await db.Meetups.findOne({
       where: { id: id },
@@ -47,6 +47,9 @@ const listCommentMeetupHelper = async (id) => {
         Boom.badRequest("Meetup with this id is not available")
       );
     }
+
+    const offset = (page - 1) * pageSize;
+
     const checkComments = await db.Comments.findAll({
       where: { meetup_id: id },
       order: [["createdAt", "DESC"]],
@@ -57,10 +60,14 @@ const listCommentMeetupHelper = async (id) => {
           attributes: { exclude: ["createdAt", "updatedAt", "password"] },
         },
       ],
+      offset,
+      limit: pageSize,
     });
+
     if (_.isEmpty(checkComments)) {
       return null;
     }
+
     return Promise.resolve(checkComments);
   } catch (err) {
     console.log([fileName, "listCommentMeetupHelper", "ERROR"], {
@@ -102,5 +109,5 @@ module.exports = {
   //user
   commentMeetupHelper,
   deleteCommentMeetupHelper,
-  listCommentMeetupHelper
+  listCommentMeetupHelper,
 };

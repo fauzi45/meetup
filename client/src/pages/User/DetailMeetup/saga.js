@@ -58,10 +58,10 @@ function* doDeleteAttend({ payload, cb }) {
   yield put(setLoading(false));
 }
 
-function* doFetchMeetupComment({ id }) {
+function* doFetchMeetupComment({ id, page }) {
   yield put(setLoading(true));
   try {
-    const response = yield call(memberComment, id);
+    const response = yield call(memberComment, id, page);
     yield put(setCommentMeetup(response?.data));
   } catch (error) {
     console.log(error);

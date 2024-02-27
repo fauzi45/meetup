@@ -27,23 +27,43 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
     const [data, setData] = useState([]);
     const [image, setImage] = useState([]);
     const [comment, setComment] = useState('');
+    const [page, setPage] = useState(1);
+    const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+
+    const handleLoadMore = () => {
+        setPage(prevPage => prevPage + 1);
+    };
+
     const dataToken = jwtDecode(token);
 
     useEffect(() => {
         dispatch(
-            getDetailMeetup(id, () => {
-                navigate('/notfound/error');
-            })
-        );
+            getDetailMeetup(id, () => navigate('/notfound/error')));
         dispatch(getMemberMeetup(id));
-        dispatch(getCommentMeetup(id));
-    }, [dispatch]);
+        dispatch(getCommentMeetup(id, page));
+
+    }, [dispatch, page]);
 
     useEffect(() => {
         if (meetupDetail) {
             setData(meetupDetail);
         }
     }, [meetupDetail]);
+
+    console.log(comments);
+
+    useEffect(() => {
+        if (meetupComment && page === 1) {
+            // Clear existing comments if loading the first page
+            setComments(meetupComment);
+        } else if (meetupComment && page > 1) {
+            // Append comments if loading additional pages
+            setComments(prevComments => [...prevComments, ...meetupComment]);
+        }
+    }, [meetupComment, page]);
+
 
     useEffect(() => {
         if (meetupDetail && meetupDetail.image && meetupDetail !== 0) {
@@ -210,7 +230,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                                     </button>
                                 </div>
                             </div>
-                            {meetupComment?.map((comment, index) => (
+                            {comments?.map((comment, index) => (
                                 <div className={classes.publicComment} key={index}>
                                     <Avatar
                                         className={classes.menuAvatar}
@@ -227,6 +247,12 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                                     </div>
                                 </div>
                             ))}
+                            {loading && <p>Loading...</p>}
+                            {!loading && (
+                                <button onClick={handleLoadMore} disabled={loading}>
+                                    Load More
+                                </button>
+                            )}
                         </div>
                     </div>
 
