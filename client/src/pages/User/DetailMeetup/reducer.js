@@ -1,11 +1,11 @@
 import { produce } from 'immer';
-import { SET_DETAIL_MEETUP, SET_MEMBER_MEETUP } from './constants';
+import { SET_COMMENT_MEETUP, SET_DETAIL_MEETUP, SET_MEMBER_MEETUP } from './constants';
 
 export const initialState = {
-  meetupDetail: { meetupDetail: {}, meetupMember: {} },
+  meetupDetail: { meetupDetail: {}, meetupMember: {}, meetupComment: {} },
 };
 
-export const storedKey = ['meetupDetail','meetupMember'];
+export const storedKey = ['meetupDetail','meetupMember','meetupComment'];
 
 const meetupDetailReducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -15,6 +15,9 @@ const meetupDetailReducer = (state = initialState, action) =>
         break;
       case SET_MEMBER_MEETUP:
         draft.meetupMember = action.dataMember;
+        break;
+      case SET_COMMENT_MEETUP:
+        draft.meetupComment = action.dataComment;
         break;
       default:
         break;

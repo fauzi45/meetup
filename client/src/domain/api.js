@@ -13,6 +13,8 @@ const urls = {
   memberMeetup: 'attend/meetup',
   addAttend: 'attend/user',
   deleteAttend: 'attend/delete/user',
+  commentMeetup: 'comment/meetup',
+  addComment: 'comment/user',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -52,4 +54,8 @@ export const addAttend = (id) => {
 };
 export const deleteAttend = (id) => {
   return callAPI(`${urls.deleteAttend}/${id}`, 'DELETE');
-}
+};
+export const memberComment = (id) => callAPI(`${urls.commentMeetup}/${id}`, 'GET');
+export const addComment = (id, data) => {
+  return callAPI(`${urls.addComment}/${id}`, 'POST', {}, {}, data);
+};

@@ -13,21 +13,22 @@ import Button from '@components/Button';
 import MeetupMember from '@components/MeetupMember';
 import { selectToken } from '@containers/Client/selectors';
 
-import { addAttendMeetup, deleteAttendMeetup, getDetailMeetup, getMemberMeetup } from './actions';
+import { addAttendMeetup, addCommentMeetup, deleteAttendMeetup, getCommentMeetup, getDetailMeetup, getMemberMeetup } from './actions';
 
 import { createStructuredSelector } from 'reselect';
-import { selectMeetupDetail, selectMemberMeetup } from './selector';
+import { selectCommentMeetup, selectMeetupDetail, selectMemberMeetup } from './selector';
 import toast, { Toaster } from 'react-hot-toast';
 
-const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
+const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
     const dispatch = useDispatch();
     const intl = useIntl();
     const { id } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [image, setImage] = useState([]);
+    const [comment, setComment] = useState('');
     const dataToken = jwtDecode(token);
-    
+
     useEffect(() => {
         dispatch(
             getDetailMeetup(id, () => {
@@ -35,6 +36,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
             })
         );
         dispatch(getMemberMeetup(id));
+        dispatch(getCommentMeetup(id));
     }, [dispatch]);
 
     useEffect(() => {
@@ -93,6 +95,38 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
         }
     };
 
+    function timeAgo(timestamp) {
+        const currentTime = new Date();
+        const commentTime = new Date(timestamp);
+        const difference = currentTime - commentTime;
+        const hours = Math.floor(difference / (1000 * 60 * 60));
+        const minutes = Math.floor(difference / (1000 * 60));
+
+        if (hours >= 24) {
+            return <>{Math.floor(hours / 24)} <FormattedMessage id="app_detail_meetup_comment_days_ago" /></>;
+        } else if (hours >= 1) {
+            return <>{hours} <FormattedMessage id="app_detail_meetup_comment_hours_ago" /></>;
+        } else if (minutes >= 1) {
+            return <>{minutes} <FormattedMessage id="app_detail_meetup_comment_minutes_ago" /></>;
+        } else {
+            return <FormattedMessage id="app_detail_meetup_comment_seconds_ago" />;
+        }
+    }
+
+    const sendComment = async () => {
+        try {
+            const payload = {
+                content: comment,
+            };
+            await dispatch(addCommentMeetup(meetupDetail?.id, payload, () => {
+                dispatch(getCommentMeetup(id));
+            }))
+            setComment('');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
         <div className={classes.container}>
             <div className={classes.wrapper}>
@@ -148,7 +182,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
                                     {meetupMember?.length > 3 && (
                                         <div className={classes.container}>
                                             <Avatar className={classes.menuAvatar} />
-                                            <p className={classes.name}>+{meetupMember?.length - 3} more</p>
+                                            <p className={classes.name}>+{meetupMember?.length - 3} <FormattedMessage id="app_detail_meetup_member_more" /></p>
                                         </div>
                                     )}
                                 </div>
@@ -156,7 +190,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
                         </div>
                         <div className={classes.comment}>
                             <p className={classes.title}>
-                                <FormattedMessage id="app_detail_meetup_comment" /> (2)
+                                <FormattedMessage id="app_detail_meetup_comment" /> ({meetupComment?.length})
                             </p>
                             <div className={classes.mycomment}>
                                 <Avatar
@@ -165,35 +199,34 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
                                 />
                                 <div className={classes.inputContainer}>
                                     <input
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
                                         className={classes.inputcomment}
                                         type="text"
                                         placeholder={intl.formatMessage({ id: 'app_detail_meetup_comment_placeholder' })}
                                     />
-                                    <button className={classes.sendButton}>
+                                    <button onClick={sendComment} className={classes.sendButton}>
                                         <FormattedMessage id="app_detail_meetup_comment_send" />
                                     </button>
                                 </div>
                             </div>
-                            <div className={classes.publicComment}>
-                                <Avatar
-                                    className={classes.menuAvatar}
-                                    src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/10/4/7fbb77c0-1bfc-4f10-8c87-e80e8600e211.jpg"
-                                />
-                                <div className={classes.publicontainer}>
-                                    <div className={classes.header}>
-                                        <p className={classes.publicname}>ujan</p>
-                                        <p className={classes.time}>3 Hours Ago</p>
+                            {meetupComment?.map((comment, index) => (
+                                <div className={classes.publicComment} key={index}>
+                                    <Avatar
+                                        className={classes.menuAvatar}
+                                        src={comment?.User?.image_url}
+                                    />
+                                    <div className={classes.publicontainer}>
+                                        <div className={classes.header}>
+                                            <p className={classes.publicname}>{comment?.User?.username}</p>
+                                            <p className={classes.time}>{timeAgo(comment?.createdAt)}</p>
+                                        </div>
+                                        <p className={classes.publiccontent}>
+                                            {comment?.content}
+                                        </p>
                                     </div>
-                                    <p className={classes.publiccontent}>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                                        and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                                        leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                                        with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                                        publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                    </p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
 
@@ -252,7 +285,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
                         </div>
                         <div className={classes.commentMobile}>
                             <p className={classes.title}>
-                                <FormattedMessage id="app_detail_meetup_comment" /> (2)
+                                <FormattedMessage id="app_detail_meetup_comment" /> ({meetupComment?.length})
                             </p>
                             <div className={classes.mycomment}>
                                 <Avatar
@@ -270,26 +303,23 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
                                     </button>
                                 </div>
                             </div>
-                            <div className={classes.publicComment}>
-                                <Avatar
-                                    className={classes.menuAvatar}
-                                    src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/10/4/7fbb77c0-1bfc-4f10-8c87-e80e8600e211.jpg"
-                                />
-                                <div className={classes.publicontainer}>
-                                    <div className={classes.header}>
-                                        <p className={classes.publicname}>ujan</p>
-                                        <p className={classes.time}>3 Hours Ago</p>
+                            {meetupComment?.map((comment, index) => (
+                                <div className={classes.publicComment} key={index}>
+                                    <Avatar
+                                        className={classes.menuAvatar}
+                                        src={comment?.User?.image_url}
+                                    />
+                                    <div className={classes.publicontainer}>
+                                        <div className={classes.header}>
+                                            <p className={classes.publicname}>{comment?.User?.username}</p>
+                                            <p className={classes.time}>{timeAgo(comment?.createdAt)}</p>
+                                        </div>
+                                        <p className={classes.publiccontent}>
+                                            {comment?.content}
+                                        </p>
                                     </div>
-                                    <p className={classes.publiccontent}>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                                        and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                                        leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                                        with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                                        publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                    </p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -302,12 +332,14 @@ const DetailMeetup = ({ meetupDetail, meetupMember, token }) => {
 DetailMeetup.propTypes = {
     meetupDetail: PropTypes.object,
     meetupMember: PropTypes.array,
+    meetupComment: PropTypes.array,
     token: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
     meetupDetail: selectMeetupDetail,
     meetupMember: selectMemberMeetup,
+    meetupComment: selectCommentMeetup,
     token: selectToken
 });
 

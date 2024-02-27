@@ -43,11 +43,15 @@ export default {
   app_detail_meetup_where: 'DIMANA',
   app_detail_meetup_to: 'Sampai',
   app_detail_meetup_organizer: 'Penyelenggara',
+  app_detail_meetup_member_more: 'anggota lainnya',
   app_detail_meetup_comment: 'Komentar',
   app_detail_meetup_comment_placeholder: 'Tambahkan komentar',
   app_detail_meetup_comment_send: 'Kirim',
   app_detai_meetup_attend: 'Hadir',
   app_detai_meetup_attended: 'Dihadiri',
   app_detai_meetup_member_notfound: 'Anggota masih kosong',
-
+  app_detail_meetup_comment_days_ago: 'hari yang lalu',
+  app_detail_meetup_comment_hours_ago: 'jam yang lalu',
+  app_detail_meetup_comment_minutes_ago: 'menit yang lalu',
+  app_detail_meetup_comment_seconds_ago: 'beberapa detik yang lalu',
 };
