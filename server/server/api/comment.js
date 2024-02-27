@@ -32,25 +32,45 @@ const commentMeetup = async (req, res) => {
 };
 
 const deleteCommentMeetup = async (req, res) => {
-    try {
-      const dataToken = req.body.dataToken;
-      Validation.idValidation(req.params);
-      const { id } = req.params;
-      const response = await commentHelper.deleteCommentMeetupHelper(
-        id,
-        dataToken
-      );
-      return res.send({
-        message: "Delete Comment success",
-        data: response,
-      });
-    } catch (err) {
-      console.log([fileName, "deleteCommentMeetup", "ERROR"], { info: `${err}` });
-      return res.send(GeneralHelper.errorResponse(err));
-    }
-  };
+  try {
+    const dataToken = req.body.dataToken;
+    Validation.idValidation(req.params);
+    const { id } = req.params;
+    const response = await commentHelper.deleteCommentMeetupHelper(
+      id,
+      dataToken
+    );
+    return res.send({
+      message: "Delete Comment success",
+      data: response,
+    });
+  } catch (err) {
+    console.log([fileName, "deleteCommentMeetup", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
 
+const listCommentMeetup = async (req, res) => {
+  try {
+    Validation.idValidation(req.params);
+    const { id } = req.params;
+    const response = await commentHelper.listCommentMeetupHelper(id);
+    return res.send({
+      message: "List Comment successfully received",
+      data: response,
+    });
+  } catch (err) {
+    console.log([fileName, "listCommentMeetup", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
+Router.get("/meetup/:id", listCommentMeetup);
 Router.post("/user/:id", Middleware.validateToken, commentMeetup);
-Router.delete("/delete/user/:id", Middleware.validateToken, deleteCommentMeetup);
+Router.delete(
+  "/delete/user/:id",
+  Middleware.validateToken,
+  deleteCommentMeetup
+);
 
 module.exports = Router;
