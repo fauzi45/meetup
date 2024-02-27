@@ -35,5 +35,16 @@ export default {
   app_create_meetup_drag_drop: 'Drag & Drop Image Uploading',
   app_create_meetup_drop: 'Drop Images Here',
   app_create_meetup_drag_drop_or: 'Drag & Drop Image here or',
-  app_create_meetup_browse: 'Browse'
+  app_create_meetup_browse: 'Browse',
+
+  app_detail_meetup_member: 'Member',
+  app_detail_meetup_when: 'WHEN',
+  app_detail_meetup_where: 'WHERE',
+  app_detail_meetup_to: 'To',
+  app_detail_meetup_organizer: 'Organizer',
+  app_detail_meetup_comment: 'Comments',
+  app_detail_meetup_comment_placeholder: 'Add comment',
+  app_detail_meetup_comment_send: 'Send',
+  app_detai_meetup_attend: 'Attend',
+  app_detai_meetup_attended: 'Attended',
 };

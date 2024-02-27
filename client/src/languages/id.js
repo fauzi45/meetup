@@ -23,7 +23,8 @@ export default {
   app_jumbotron_description: `Kami akan membantu Anda menemukan orang yang tepat untuk mewujudkannya`,
   app_create_meetup_title: `Apa nama Meetup Anda?`,
   app_create_meetup_title_placeholder: 'Judul Meetup Anda...',
-  app_create_meetup_description: 'Jelaskan siapa saja yang harus bergabung, dan apa yang akan dilakukan dalam Meetup Anda',
+  app_create_meetup_description:
+    'Jelaskan siapa saja yang harus bergabung, dan apa yang akan dilakukan dalam Meetup Anda',
   app_create_meetup_description_placeholder: 'Deksripsi...',
   app_create_meetup_category: 'Kategori',
   app_create_meetup_location: 'Dimana pertemuan Anda akan diadakan?',
@@ -35,5 +36,16 @@ export default {
   app_create_meetup_drag_drop: 'Tarik & Lepas untuk Mengunggah Gambar',
   app_create_meetup_drop: 'Lepas Gambar di sini',
   app_create_meetup_drag_drop_or: 'Tarik & Lepas Gambar di sini atau',
-  app_create_meetup_browse: 'Pilih'
+  app_create_meetup_browse: 'Pilih',
+
+  app_detail_meetup_member: 'Anggota',
+  app_detail_meetup_when: 'KAPAN',
+  app_detail_meetup_where: 'DIMANA',
+  app_detail_meetup_to: 'Sampai',
+  app_detail_meetup_organizer: 'Penyelenggara',
+  app_detail_meetup_comment: 'Komentar',
+  app_detail_meetup_comment_placeholder: 'Tambahkan komentar',
+  app_detail_meetup_comment_send: 'Kirim',
+  app_detai_meetup_attend: 'Hadir',
+  app_detai_meetup_attended: 'Dihadiri',
 };
