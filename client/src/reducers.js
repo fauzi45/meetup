@@ -14,7 +14,7 @@ const storedReducers = {
   client: { reducer: clientReducer, whitelist: storedClientState },
   register: { reducer: registerReducer, whitelist: storedRegisterState },
   locationMeetup: { reducer: locationReducer, whitelist: storedLocationState},
-  meetupDetail: { reducer: meetupDetailReducer, whitelist: storedMeetupDetailState}
+  meetupDetail: { reducer: meetupDetailReducer, whitelist: storedMeetupDetailState},
 };
 
 const temporaryReducers = {
