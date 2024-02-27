@@ -61,6 +61,39 @@ const attendMeetupHelper = async (id, dataToken) => {
   }
 };
 
+const listAttendMeetupHelper = async (id) => {
+  try {
+    const checkMeetup = await db.Meetups.findOne({
+      where: { id: id },
+    });
+    if (_.isEmpty(checkMeetup)) {
+      return Promise.reject(
+        Boom.badRequest("Meetup with this id is not available")
+      );
+    }
+    const checkAttendance = await db.Attendees.findAll({
+      where: {meetup_id: id},
+      order: [["createdAt", "DESC"]],
+      attributes: { exclude: ["updatedAt"] },
+      include: [
+        {
+          model: db.User,
+          attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+        },
+      ],
+    });
+    if (_.isEmpty(checkAttendance)) {
+      return null
+    }
+    return Promise.resolve(checkAttendance);
+  } catch (err) {
+    console.log([fileName, "attendMeetupHelper", "ERROR"], {
+      info: `${err}`,
+    });
+    return Promise.reject(GeneralHelper.errorResponse(err));
+  }
+};
+
 const deleteAttendMeetupHelper = async (id, dataToken) => {
   try {
     const checkAuthorization = await db.User.findOne({
@@ -101,4 +134,5 @@ module.exports = {
   //user
   attendMeetupHelper,
   deleteAttendMeetupHelper,
+  listAttendMeetupHelper,
 };

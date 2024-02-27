@@ -72,6 +72,7 @@ const login = async (dataObject) => {
     const token = __generateToken({
       id: user.id,
       role: user.role,
+      image_url: user.image_url
     });
 
     return Promise.resolve({ token });

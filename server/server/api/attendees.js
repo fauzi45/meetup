@@ -14,7 +14,7 @@ const attendMeetup = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
     Validation.idValidation(req.params);
-    Validation.dataTokenValidation(dataToken);
+    Validation.dataTokenValidation({dataToken});
     const { id } = req.params;
     const response = await attendeesHelper.attendMeetupHelper(id, dataToken);
     return res.send({
@@ -31,7 +31,7 @@ const deleteAttendMeetup = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
     Validation.idValidation(req.params);
-    Validation.dataTokenValidation(dataToken);
+    Validation.dataTokenValidation({dataToken});
     const { id } = req.params;
     const response = await attendeesHelper.deleteAttendMeetupHelper(
       id,
@@ -47,6 +47,22 @@ const deleteAttendMeetup = async (req, res) => {
   }
 };
 
+const listAttendMeetup = async (req, res) => {
+  try {
+    Validation.idValidation(req.params);
+    const { id } = req.params;
+    const response = await attendeesHelper.listAttendMeetupHelper(id);
+    return res.send({
+      message: "List Attend successfully received",
+      data: response,
+    });
+  } catch (err) {
+    console.log([fileName, "listAttendMeetup", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
+Router.get("/meetup/:id", listAttendMeetup);
 Router.post("/user/:id", Middleware.validateToken, attendMeetup);
 Router.delete("/delete/user/:id", Middleware.validateToken, deleteAttendMeetup);
 

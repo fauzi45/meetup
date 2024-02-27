@@ -50,6 +50,10 @@ const getMeetupDetailHelperUser = async (id) => {
           model: db.Category,
           attributes: { exclude: ["createdAt", "updatedAt"] },
         },
+        {
+          model: db.User,
+          attributes: { exclude: ["createdAt", "updatedAt", 'password'] },
+        }
       ],
     });
     if (_.isEmpty(checkMeetup)) {
