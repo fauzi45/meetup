@@ -11,7 +11,7 @@
   justify-content: center;
   .wrapper {
     @include directionY;
-    padding: 3rem 0rem;
+    padding: 3rem 0;
     align-items: center;
     gap: 1.5rem;
     width: 90%;
@@ -23,15 +23,59 @@
     .title {
       color: white;
       font-size: 30px;
+      font-weight: 700;
       text-align: center;
     }
     .maps {
       height: 400px;
       width: 70%;
+      .title {
+        color: black;
+        text-align: left;
+        font-weight: 600;
+        font-size: 24px;
+      }
+      .organizer {
+        font-weight: 600;
+      }
+      .image {
+        width: 200px;
+        height: 100px;
+        object-fit: cover;
+      }
+      .buttonContainer {
+        @include directionX;
+        justify-content: center;
+        .button {
+          color: $color-black;
+          height: 20px;
+          padding: 10px 15px;
+          text-align: center;
+          width: fit-content;
+          font-weight: 600;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          cursor: pointer;
+          font-size: 16px;
+          border: 1px solid $color-yellow;
+          font-family: 'Poppins', sans-serif;
+          border-radius: 30px;
+          background: $color-yellow;
+          -webkit-border-radius: 30px;
+          -moz-border-radius: 30px;
+          -ms-border-radius: 30px;
+          -o-border-radius: 30px;
+        }
+        .button:hover {
+          background-color: $color-white;
+        }
+      }
     }
     .box {
       width: 90%;
       @include directionY;
+      padding: 3rem 0;
       align-items: center;
       background-color: white;
       border-radius: 5px;
@@ -39,7 +83,7 @@
       -moz-border-radius: 5px;
       -ms-border-radius: 5px;
       -o-border-radius: 5px;
-      .boxwrapper{
+      .boxwrapper {
         width: 80%;
         @include directionY;
         padding-top: 1rem;
