@@ -20,6 +20,9 @@ const provider = new OpenStreetMapProvider();
 const searchControl = new SearchControl({
   provider: provider,
   style: 'button',
+  autoComplete: true,
+  autoClose: true,
+  keepResult: true,
   notFoundMessage: 'Sorry, that address could not be found.',
 });
 

@@ -53,10 +53,10 @@
       @include apply-at-xs-size {
         @include directionY;
       }
-      @include apply-at-xl-size {
-        @include directionX;
-      }
       @include apply-at-lg-size {
+        @include directionY;
+      }
+      @include apply-at-xl-size {
         @include directionX;
       }
       .to {
