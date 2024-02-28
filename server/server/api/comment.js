@@ -54,13 +54,9 @@ const listCommentMeetup = async (req, res) => {
   try {
     Validation.idValidation(req.params);
     const { id } = req.params;
-    const page = req.query.page || 1; // Default page is 1
-    const pageSize = 5; // Default page size is 10
 
-    const response = await commentHelper.listCommentMeetupHelper(
+    const response = await commentHelper.loadMoreCommentMeetupHelper(
       id,
-      page,
-      pageSize
     );
 
     if (!response) {
@@ -80,7 +76,38 @@ const listCommentMeetup = async (req, res) => {
   }
 };
 
-Router.get("/meetup/:id", listCommentMeetup);
+const loadMoreCommentMeetup = async (req, res) => {
+  try {
+    Validation.idValidation(req.params);
+    const { id } = req.params;
+    const page = req.query.page || 1; // Default page is 1
+    const pageSize = 5; // Default page size is 10
+
+    const response = await commentHelper.loadMoreCommentMeetupHelper(
+      id,
+      page,
+      pageSize
+    );
+
+    if (!response) {
+      return res.send({
+        message: "No comments found for this meetup",
+        data: [],
+      });
+    }
+
+    return res.send({
+      message: "Load More Comment successfully received",
+      data: response,
+    });
+  } catch (err) {
+    console.log([fileName, "listCommentMeetup", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
+Router.get("/meetup/list/:id", listCommentMeetup);
+Router.get("/meetup/loadmore/:id", loadMoreCommentMeetup);
 Router.post("/user/:id", Middleware.validateToken, commentMeetup);
 Router.delete(
   "/delete/user/:id",
