@@ -1,0 +1,52 @@
+@import '../../styles/base.scss';
+
+.container {
+  width: 100%;
+  @include directionX;
+
+  justify-content: space-between;
+  .kiri {
+    width: 55%;
+    @include directionY;
+    gap: 1rem;
+    .title {
+      color: #161414;
+      font-size: 20px;
+    }
+    .description {
+      font-size: 16px;
+    }
+    .button {
+      color: $color-black;
+      height: 35px;
+      width: fit-content;
+      padding: 10px 35px;
+      text-align: center;
+      font-weight: 700;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+      font-size: 16px;
+      border: 1px solid $color-yellow;
+      font-family: 'Poppins', sans-serif;
+      border-radius: 30px;
+      background: $color-yellow;
+      -webkit-border-radius: 30px;
+      -moz-border-radius: 30px;
+      -ms-border-radius: 30px;
+      -o-border-radius: 30px;
+    }
+  }
+  .kanan {
+    width: 40%;
+    .image {
+      width: 100%;
+      border-radius: 10px;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+    }
+  }
+}

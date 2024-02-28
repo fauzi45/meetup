@@ -8,12 +8,15 @@ const urls = {
   register: 'auth/register',
   login: 'auth/login',
 
+  listMeetup: 'meetup/user/list',
+
   createMeetup: 'meetup/user/create',
   detailMeetup: 'meetup/user/detail',
   memberMeetup: 'attend/meetup',
   addAttend: 'attend/user',
   deleteAttend: 'attend/delete/user',
-  commentMeetup: 'comment/meetup',
+  listCommentMeetup: 'comment/meetup/list',
+  commentMeetupLoadMore: 'comment/meetup/loadmore',
   addComment: 'comment/user',
 };
 
@@ -47,6 +50,7 @@ export const login = (data) => {
 
 export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
+export const listMeetup = () => callAPI(`${urls.listMeetup}`, 'GET');
 export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
 export const memberMeetup = (id) => callAPI(`${urls.memberMeetup}/${id}`, 'GET');
 export const addAttend = (id) => {
@@ -55,7 +59,7 @@ export const addAttend = (id) => {
 export const deleteAttend = (id) => {
   return callAPI(`${urls.deleteAttend}/${id}`, 'DELETE');
 };
-export const memberComment = (id, page) => callAPI(`${urls.commentMeetup}/${id}`, 'GET', {}, { page });
+export const memberComment = (id, page) => callAPI(`${urls.commentMeetupLoadMore}/${id}`, 'GET', {}, { page });
 export const addComment = (id, data) => {
   return callAPI(`${urls.addComment}/${id}`, 'POST', {}, {}, data);
 };

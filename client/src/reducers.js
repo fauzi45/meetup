@@ -6,6 +6,7 @@ import languageReducer from '@containers/Language/reducer';
 import registerReducer, { storedKey as storedRegisterState } from '@pages/Auth/Register/reducer';
 import locationReducer, { storedKey as storedLocationState } from '@pages/User/CreateMeetup/reducer';
 import meetupDetailReducer, { storedKey as storedMeetupDetailState } from '@pages/User/DetailMeetup/reducer';
+import meetupReducer, { storedKey as storedMeetupState } from '@pages/Home/reducer';
 
 import { mapWithPersistor } from './persistence';
 
@@ -14,6 +15,7 @@ const storedReducers = {
   client: { reducer: clientReducer, whitelist: storedClientState },
   register: { reducer: registerReducer, whitelist: storedRegisterState },
   locationMeetup: { reducer: locationReducer, whitelist: storedLocationState},
+  meetup: { reducer: meetupReducer, whitelist: storedMeetupState},
   meetupDetail: { reducer: meetupDetailReducer, whitelist: storedMeetupDetailState},
 };
 
