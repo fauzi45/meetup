@@ -26,6 +26,10 @@ const getMeetupListHelperUser = async (dataToken) => {
           model: db.Category,
           attributes: { exclude: ["createdAt", "updatedAt"] },
         },
+        {
+          model: db.User,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
       ],
     });
     if (_.isEmpty(checkMeetup)) {
