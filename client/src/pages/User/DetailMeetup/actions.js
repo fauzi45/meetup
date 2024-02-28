@@ -5,6 +5,7 @@ import {
   GET_COMMENT_MEETUP,
   GET_DETAIL_MEETUP,
   GET_MEMBER_MEETUP,
+  RESET_COMMENT_MEETUP,
   SET_COMMENT_MEETUP,
   SET_DETAIL_MEETUP,
   SET_MEMBER_MEETUP,
@@ -46,7 +47,7 @@ export const deleteAttendMeetup = (payload, cb) => ({
 export const getCommentMeetup = (id, page) => ({
   type: GET_COMMENT_MEETUP,
   id,
-  page
+  page,
 });
 
 export const setCommentMeetup = (dataComment) => ({
@@ -58,5 +59,9 @@ export const addCommentMeetup = (id, data, cb) => ({
   type: ADD_COMMENT_MEETUP,
   id,
   data,
-  cb
+  cb,
+});
+
+export const resetCommentMeetup = () => ({
+  type: RESET_COMMENT_MEETUP,
 });

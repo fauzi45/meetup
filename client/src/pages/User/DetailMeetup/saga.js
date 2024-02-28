@@ -73,8 +73,7 @@ function* doAddComment({ id, data, cb }) {
   yield put(setLoading(true));
   try {
     const response = yield call(addComment, id, data);
-    console.log(response)
-    cb();
+    cb && cb();
   } catch (error) {
     if (error?.response?.status === 404) {
       toast.error(error);
