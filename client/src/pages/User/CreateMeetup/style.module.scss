@@ -80,9 +80,8 @@
       }
     }
     .inputDesc {
-      @extend .inputTitle;
-      height: 100px;
-      padding: 20px 20px;
+      background-color: #fff;
+      justify-content: center;
     }
     .subTitle {
       color: $color-black;
@@ -92,11 +91,6 @@
       font-weight: 400;
       line-height: normal;
       margin-bottom: 20px;
-    }
-    .description {
-      background-color: #fff;
-      height: 215px;
-      justify-content: center;
     }
     .post {
       @include directionX;

@@ -12,7 +12,8 @@ import { selectLocationMeetup } from './selector';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ const searchControl = new SearchControl({
   style: 'button',
   autoComplete: true,
   autoClose: true,
-  maxMarkers: 1, 
+  maxMarkers: 1,
   keepResult: true,
   notFoundMessage: 'Sorry, that address could not be found.',
 });
@@ -63,6 +64,7 @@ const CreateMeetup = ({ meetupLocation }) => {
     title: '',
     description: '',
     category_id: '',
+    place: '',
     full_address: '',
     start_date: '',
     finish_date: '',
@@ -119,6 +121,8 @@ const CreateMeetup = ({ meetupLocation }) => {
       toast.error('The Address cannot be empty');
     } else if (!meetupLocation) {
       toast.error('The Maps must be selected');
+    } else if (!formData.place) {
+      toast.error('The Place cannot be empty');
     } else if (!formData.start_date) {
       toast.error('The Start Date cannot be empty');
     } else if (!formData.finish_date) {
@@ -129,6 +133,8 @@ const CreateMeetup = ({ meetupLocation }) => {
       toast.error('The Finish Date cannot be empty');
     } else if (!formData.capacity) {
       toast.error('The Capacity cannot be empty');
+    } else if (formData.capacity < 2) {
+      toast.error('capacity must be greater than 1');
     } else if (!image) {
       toast.error('The Image cannot be empty');
     } else {
@@ -139,6 +145,7 @@ const CreateMeetup = ({ meetupLocation }) => {
       formDataSend.append('full_address', formData.full_address);
       formDataSend.append('lat', meetupLocation.y);
       formDataSend.append('long', meetupLocation.x);
+      formDataSend.append('place', formData.place);
       formDataSend.append('start_date', formData.start_date);
       formDataSend.append('finish_date', formData.finish_date);
       formDataSend.append('start_time', formData.start_time);
@@ -172,12 +179,12 @@ const CreateMeetup = ({ meetupLocation }) => {
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_description" />
         </div>
-        <textarea
-          placeholder={intl.formatMessage({ id: 'app_create_meetup_description_placeholder' })}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+        <ReactQuill
+          theme="snow"
           value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e })}
           className={classes.inputDesc}
-        ></textarea>
+        />
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_category" />
         </div>
@@ -200,6 +207,16 @@ const CreateMeetup = ({ meetupLocation }) => {
           />
         </MapContainer>
         <br />
+        <div className={classes.subTitle}>
+          <FormattedMessage id="app_create_meetup_place" />
+        </div>
+        <input
+          placeholder={intl.formatMessage({ id: 'app_create_meetup_place' })}
+          type="text"
+          onChange={(e) => setFormData({ ...formData, place: e.target.value })}
+          value={formData.place}
+          className={classes.inputTitle}
+        />
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_fullAddress" />
         </div>
