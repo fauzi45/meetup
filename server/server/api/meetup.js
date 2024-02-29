@@ -26,6 +26,21 @@ const listMeetupUser = async (req, res) => {
   }
 };
 
+const listMeetupByCategoryUser = async (req, res) => {
+  try {
+    const dataToken = req.body.dataToken;
+    const nameCategory = req.query.category;
+    const response = await meetupHelper.getMeetupListByCategoryHelperUser(dataToken, nameCategory);
+    return res.send({
+      message: "Meetup data By Category received successfully",
+      response,
+    });
+  } catch (err) {
+    console.log([fileName, "listMeetupByCategoryUser", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
 const detailMeetupUser = async (req, res) => {
   try {
     Validation.idValidation(req.params);
@@ -53,6 +68,7 @@ const createMeetupUser = async (req, res) => {
       full_address,
       lat,
       long,
+      place,
       start_date,
       finish_date,
       start_time,
@@ -72,6 +88,7 @@ const createMeetupUser = async (req, res) => {
         full_address,
         lat,
         long,
+        place,
         start_date,
         finish_date,
         start_time,
@@ -154,6 +171,7 @@ const deleteMeetupUser = async (req, res) => {
 };
 
 Router.get("/user/list", Middleware.validateToken, listMeetupUser);
+Router.get("/category/user/list/", Middleware.validateToken, listMeetupByCategoryUser);
 Router.get("/user/detail/:id", Middleware.validateToken, detailMeetupUser);
 Router.post(
   "/user/create",

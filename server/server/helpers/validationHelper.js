@@ -45,11 +45,12 @@ const createMeetupValidation = (data) => {
     full_address: Joi.string().required(),
     lat: Joi.string().required(),
     long: Joi.string().required(),
+    place: Joi.string().required(),
     start_date: Joi.date().required(),
     finish_date: Joi.date().required(),
     start_time: Joi.string().regex(timeRegex).required(),
     finish_time: Joi.string().regex(timeRegex).required(),
-    capacity: Joi.number().required(),
+    capacity: Joi.number().required().min(1),
     dataToken: Joi.object().required(),
   });
 

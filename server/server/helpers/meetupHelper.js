@@ -33,7 +33,53 @@ const getMeetupListHelperUser = async (dataToken) => {
       ],
     });
     if (_.isEmpty(checkMeetup)) {
-      return Promise.reject(Boom.badRequest("Meetup data is empty"));
+      return null;
+    }
+    return Promise.resolve(checkMeetup);
+  } catch (err) {
+    console.log([fileName, "getMeetupListHelperUser", "ERROR"], {
+      info: `${err}`,
+    });
+    return Promise.reject(GeneralHelper.errorResponse(err));
+  }
+};
+
+const getMeetupListByCategoryHelperUser = async (dataToken, nameCategory) => {
+  try {
+    const checkAuthorization = await db.User.findOne({
+      where: { id: dataToken.id },
+    });
+    if (_.isEmpty(checkAuthorization)) {
+      return Promise.reject(
+        Boom.unauthorized("You are not authorized to create this data")
+      );
+    }
+
+    const category = await db.Category.findOne({
+      where: { name: nameCategory },
+    });
+
+    if (_.isEmpty(category)) {
+      return Promise.reject(Boom.notFound("Category not found"));
+    }
+
+    const checkMeetup = await db.Meetups.findAll({
+      order: [["createdAt", "DESC"]],
+      attributes: { exclude: ["updatedAt"] },
+      include: [
+        {
+          model: db.Category,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          where: { name: nameCategory }, 
+        },
+        {
+          model: db.User,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
+      ],
+    });
+    if (_.isEmpty(checkMeetup)) {
+      return null;
     }
     return Promise.resolve(checkMeetup);
   } catch (err) {
@@ -56,8 +102,8 @@ const getMeetupDetailHelperUser = async (id) => {
         },
         {
           model: db.User,
-          attributes: { exclude: ["createdAt", "updatedAt", 'password'] },
-        }
+          attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+        },
       ],
     });
     if (_.isEmpty(checkMeetup)) {
@@ -223,6 +269,7 @@ const deleteMeetupHelperUser = async (id, dataToken) => {
 
 module.exports = {
   getMeetupListHelperUser,
+  getMeetupListByCategoryHelperUser,
   createMeetupUser,
   getMeetupDetailHelperUser,
   deleteMeetupHelperUser,
