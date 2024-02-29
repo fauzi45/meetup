@@ -26,12 +26,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Meetups.init({
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     category_id: DataTypes.INTEGER,
     image: DataTypes.JSON,
     full_address: DataTypes.STRING,
     lat: DataTypes.STRING,
     long: DataTypes.STRING,
+    place: DataTypes.STRING,
     start_date: DataTypes.DATEONLY,
     finish_date: DataTypes.DATEONLY,
     start_time: DataTypes.TIME,
