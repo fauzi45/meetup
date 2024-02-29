@@ -89,7 +89,7 @@ const Login = () => {
               <p>
                 <FormattedMessage id="app_no_acc" />
               </p>
-              <p onClick={() => navigate('/login')} className={classes.link}>
+              <p onClick={() => navigate('/register')} className={classes.link}>
                 {' '}
                 <FormattedMessage id="app_register_here" />
               </p>
