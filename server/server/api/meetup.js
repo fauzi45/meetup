@@ -26,17 +26,42 @@ const listMeetupUser = async (req, res) => {
   }
 };
 
+const listMeetupByDateUser = async (req, res) => {
+  try {
+    const dataToken = req.body.dataToken;
+    const startDate = req.query.startDate;
+    const finishDate = req.query.finishDate;
+    const response = await meetupHelper.getMeetupListHelperbyDateUser(
+      dataToken,
+      startDate,
+      finishDate
+    );
+    return res.send({
+      message: "Meetup data by Date received successfully",
+      response,
+    });
+  } catch (err) {
+    console.log([fileName, "listMeetup", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
 const listMeetupByCategoryUser = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
     const nameCategory = req.query.category;
-    const response = await meetupHelper.getMeetupListByCategoryHelperUser(dataToken, nameCategory);
+    const response = await meetupHelper.getMeetupListByCategoryHelperUser(
+      dataToken,
+      nameCategory
+    );
     return res.send({
       message: "Meetup data By Category received successfully",
       response,
     });
   } catch (err) {
-    console.log([fileName, "listMeetupByCategoryUser", "ERROR"], { info: `${err}` });
+    console.log([fileName, "listMeetupByCategoryUser", "ERROR"], {
+      info: `${err}`,
+    });
     return res.send(GeneralHelper.errorResponse(err));
   }
 };
@@ -75,7 +100,7 @@ const createMeetupUser = async (req, res) => {
       finish_time,
       capacity,
     } = req.body;
-    
+
     if (req?.fileValidationError)
       return res.status(400).json({ message: req.fileValidationError.message });
     if (!req?.files?.image)
@@ -171,7 +196,13 @@ const deleteMeetupUser = async (req, res) => {
 };
 
 Router.get("/user/list", Middleware.validateToken, listMeetupUser);
-Router.get("/category/user/list/", Middleware.validateToken, listMeetupByCategoryUser);
+Router.get("/date/user/list", Middleware.validateToken, listMeetupByDateUser);
+
+Router.get(
+  "/category/user/list/",
+  Middleware.validateToken,
+  listMeetupByCategoryUser
+);
 Router.get("/user/detail/:id", Middleware.validateToken, detailMeetupUser);
 Router.post(
   "/user/create",

@@ -13,10 +13,18 @@ import { useNavigate } from 'react-router-dom';
 import { getCategory } from '@pages/Category/actions';
 import { selectCategory } from '@pages/Category/selector';
 import { useState } from 'react';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 const Home = ({ meetup, category }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('');
+  const [startDate, setStartDate] = useState();
+
+
   useEffect(() => {
     dispatch(resetMeetup());
     dispatch(getMeetup());
@@ -60,7 +68,10 @@ const Home = ({ meetup, category }) => {
                       <div
                         className={classes.description}
                         dangerouslySetInnerHTML={{
-                          __html: pos?.description?.length > 100 ? pos?.description?.substring(0, 50) + '...' : pos?.description,
+                          __html:
+                            pos?.description?.length > 100
+                              ? pos?.description?.substring(0, 50) + '...'
+                              : pos?.description,
                         }}
                       />
                       <p className={classes.organizer}>
@@ -80,6 +91,10 @@ const Home = ({ meetup, category }) => {
           </MarkerClusterGroup>
         </MapContainer>
         <div className={classes.box}>
+          <div className={classes.dateContainer}>
+            <DatePicker placeholderText="Select Start Date" className={classes.date} selected={startDate} onChange={(date) => setStartDate(date)} />
+            <DatePicker placeholderText="Select Finish Date" className={classes.date} selected={startDate} onChange={(date) => setStartDate(date)} />
+          </div>
           <div className={classes.category}>
             {category?.map((categories, index) => (
               <div

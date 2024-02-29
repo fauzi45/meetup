@@ -7,6 +7,7 @@ const {
   uploadToCloudinary,
   cloudinaryDeleteImg,
 } = require("../../utils/cloudinary");
+const { Op } = require("sequelize");
 
 const getMeetupListHelperUser = async (dataToken) => {
   try {
@@ -31,6 +32,47 @@ const getMeetupListHelperUser = async (dataToken) => {
           attributes: { exclude: ["createdAt", "updatedAt"] },
         },
       ],
+    });
+    if (_.isEmpty(checkMeetup)) {
+      return null;
+    }
+    return Promise.resolve(checkMeetup);
+  } catch (err) {
+    console.log([fileName, "getMeetupListHelperUser", "ERROR"], {
+      info: `${err}`,
+    });
+    return Promise.reject(GeneralHelper.errorResponse(err));
+  }
+};
+
+const getMeetupListHelperbyDateUser = async (dataToken, startDate, finishDate) => {
+  try {
+    const checkAuthorization = await db.User.findOne({
+      where: { id: dataToken.id },
+    });
+    if (_.isEmpty(checkAuthorization)) {
+      return Promise.reject(
+        Boom.unauthorized("You are not authorized to create this data")
+      );
+    }
+    const checkMeetup = await db.Meetups.findAll({
+      order: [["createdAt", "DESC"]],
+      attributes: { exclude: ["updatedAt"] },
+      include: [
+        {
+          model: db.Category,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
+        {
+          model: db.User,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
+      ],
+      where: {
+        start_date: {
+          [Op.between]: [startDate, finishDate],
+        },
+      },
     });
     if (_.isEmpty(checkMeetup)) {
       return null;
@@ -70,7 +112,7 @@ const getMeetupListByCategoryHelperUser = async (dataToken, nameCategory) => {
         {
           model: db.Category,
           attributes: { exclude: ["createdAt", "updatedAt"] },
-          where: { name: nameCategory }, 
+          where: { name: nameCategory },
         },
         {
           model: db.User,
@@ -269,6 +311,7 @@ const deleteMeetupHelperUser = async (id, dataToken) => {
 
 module.exports = {
   getMeetupListHelperUser,
+  getMeetupListHelperbyDateUser,
   getMeetupListByCategoryHelperUser,
   createMeetupUser,
   getMeetupDetailHelperUser,
