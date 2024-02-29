@@ -59,7 +59,6 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
     }
   }, [meetupDetail]);
 
-
   useEffect(() => {
     if (meetupDetail && meetupDetail.image && meetupDetail !== 0) {
       try {
@@ -152,7 +151,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
       await dispatch(
         addCommentMeetup(meetupDetail?.id, payload, () => {
           dispatch(resetCommentMeetup());
-          dispatch(getCommentMeetup(id,1));
+          dispatch(getCommentMeetup(id, 1));
         })
       );
       setComment('');
@@ -261,9 +260,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </div>
                 </div>
               ))}
-              {meetupComment.length % 5 === 0 && (
-                <Button onClick={handleLoadMore} text="Load More" />
-              )}
+              {meetupComment.length % 5 === 0 ? <Button onClick={handleLoadMore} text="Load More" /> : ''}
             </div>
           </div>
 
