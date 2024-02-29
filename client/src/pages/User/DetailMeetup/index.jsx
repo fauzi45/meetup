@@ -37,16 +37,14 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
   const [image, setImage] = useState([]);
   const [comment, setComment] = useState('');
   const [page, setPage] = useState(1);
-  const [commentsToShow, setCommentsToShow] = useState(5); 
+  const [commentsToShow, setCommentsToShow] = useState(5);
 
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
-    setCommentsToShow(prevCount => prevCount + 5);
+    setCommentsToShow((prevCount) => prevCount + 5);
   };
 
   const showLoadMoreButton = meetupComment?.length + 1 > commentsToShow;
-
-  console.log(showLoadMoreButton)
 
   const visibleComments = meetupComment?.slice(0, commentsToShow);
 
@@ -165,6 +163,16 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
     }
   };
 
+  const handleMap = () => {
+    if (meetupDetail && meetupDetail?.lat && meetupDetail?.long) {
+      const mapUrl = `https://www.google.com/maps?q=${meetupDetail?.lat},${meetupDetail?.long}`;
+
+      window.open(mapUrl, '_blank');
+    } else {
+      console.error('Data latitude atau longitude tidak tersedia');
+    }
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
@@ -195,7 +203,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
             <div className={classes.detail}>
               <p className={classes.title}>{data?.title}</p>
               <p className={classes.category}>{data?.Category?.name}</p>
-              <p className={classes.description}>{data?.description}</p>
+              <div className={classes.description} dangerouslySetInnerHTML={{ __html: data?.description }} />
             </div>
             <div className={classes.member}>
               <p className={classes.title}>
@@ -265,15 +273,15 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </div>
                 </div>
               ))}
-              {showLoadMoreButton  && (
-                <Button onClick={handleLoadMore} text="Load More" />
-              )}
+              {showLoadMoreButton && <Button onClick={handleLoadMore} text={<FormattedMessage id="app_load_more" />} />}
             </div>
           </div>
 
           <div className={classes.kanan}>
             <div className={classes.when}>
               {meetupDetail?.organizer_id === dataToken?.id ? (
+                ''
+              ) : dataToken?.id === 1 ? (
                 ''
               ) : meetupMember?.some((m) => m.user_id === dataToken?.id) ? (
                 <Button
@@ -300,22 +308,26 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
               <p className={classes.title}>
                 <FormattedMessage id="app_detail_meetup_where" />
               </p>
-              <p className={classes.location}>Gedung Kocak</p>
+              <p onClick={handleMap} className={classes.location}>
+                {data?.place}
+              </p>
               <p className={classes.fulladdress}>{data?.full_address}</p>
               {meetupDetail && meetupDetail.lat && meetupDetail.long && (
-                <MapContainer
-                  key={`${meetupDetail.lat}-${meetupDetail.long}`}
-                  className={classes.maps}
-                  center={[meetupDetail.lat, meetupDetail.long]}
-                  zoom={15}
-                  scrollWheelZoom={false}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[meetupDetail.lat, meetupDetail.long]} />
-                </MapContainer>
+                <div onClick={handleMap}>
+                  <MapContainer
+                    key={`${meetupDetail.lat}-${meetupDetail.long}`}
+                    className={classes.maps}
+                    center={[meetupDetail.lat, meetupDetail.long]}
+                    zoom={15}
+                    scrollWheelZoom={false}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[meetupDetail.lat, meetupDetail.long]} />
+                  </MapContainer>
+                </div>
               )}
             </div>
             <div className={classes.commentMobile}>

@@ -390,10 +390,15 @@
             font-size: 20px;
             color: black;
           }
+          
           .location {
             font-weight: 600;
             font-size: 14px;
             color: #2397f2;
+            cursor: pointer;
+          }
+          .location:hover{
+            text-decoration: underline;
           }
           .fulladdress {
             font-size: 14px;
