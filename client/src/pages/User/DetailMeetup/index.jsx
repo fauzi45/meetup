@@ -26,6 +26,7 @@ import {
 import { createStructuredSelector } from 'reselect';
 import { selectCommentMeetup, selectMeetupDetail, selectMemberMeetup } from './selector';
 import toast, { Toaster } from 'react-hot-toast';
+import { formatDate } from '@utils/convertDate';
 
 const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
   const dispatch = useDispatch();
@@ -36,10 +37,18 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
   const [image, setImage] = useState([]);
   const [comment, setComment] = useState('');
   const [page, setPage] = useState(1);
+  const [commentsToShow, setCommentsToShow] = useState(5); 
 
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
+    setCommentsToShow(prevCount => prevCount + 5);
   };
+
+  const showLoadMoreButton = meetupComment?.length + 1 > commentsToShow;
+
+  console.log(showLoadMoreButton)
+
+  const visibleComments = meetupComment?.slice(0, commentsToShow);
 
   const dataToken = jwtDecode(token);
 
@@ -68,12 +77,6 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
       }
     }
   }, [meetupDetail]);
-
-  function formatDate(inputDateStr) {
-    const inputDate = new Date(inputDateStr);
-    const options = { day: '2-digit', month: 'long', year: 'numeric' };
-    return inputDate.toLocaleDateString('en-GB', options);
-  }
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -151,7 +154,9 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
       await dispatch(
         addCommentMeetup(meetupDetail?.id, payload, () => {
           dispatch(resetCommentMeetup());
-          dispatch(getCommentMeetup(id, 1));
+          dispatch(getCommentMeetup(id));
+          setPage(1);
+          setCommentsToShow(5);
         })
       );
       setComment('');
@@ -248,7 +253,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </button>
                 </div>
               </div>
-              {meetupComment?.map((comment, index) => (
+              {visibleComments?.map((comment, index) => (
                 <div className={classes.publicComment} key={index}>
                   <Avatar className={classes.menuAvatar} src={comment?.User?.image_url} />
                   <div className={classes.publicontainer}>
@@ -260,7 +265,9 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </div>
                 </div>
               ))}
-              {meetupComment.length % 5 === 0 ? <Button onClick={handleLoadMore} text="Load More" /> : ''}
+              {showLoadMoreButton  && (
+                <Button onClick={handleLoadMore} text="Load More" />
+              )}
             </div>
           </div>
 

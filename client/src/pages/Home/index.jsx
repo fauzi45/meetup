@@ -10,7 +10,6 @@ import { getMeetup } from './actions';
 import { useEffect } from 'react';
 import { selectMeetup } from './selectors';
 import { useNavigate } from 'react-router-dom';
-
 const Home = ({ meetup }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ const Home = ({ meetup }) => {
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
-        <p className={classes.title}>Find Meetup around Indonesia</p>
+        <p className={classes.title}>Find Meetup Around Indonesia</p>
         <MapContainer
           className={classes.maps}
           center={[-3.162455530237848, 119.87953278381451]}
@@ -38,25 +37,41 @@ const Home = ({ meetup }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MarkerClusterGroup chunkedLoading>
-            {meetup?.map((pos, index) => (
-              <Marker key={index} position={[parseFloat(pos.lat), parseFloat(pos.long)]}>
-                <Popup>
-                  <p>{pos?.User?.username}</p>
-                  <p onClick={() => showDetail(pos?.id)}>Show Detail</p>
-                </Popup>
-              </Marker>
-            ))}
+            {meetup && Array.isArray(meetup) && meetup?.map((pos, index) => {
+              const images = JSON.parse(pos?.image);
+              return (
+                <Marker key={index} position={[parseFloat(pos.lat), parseFloat(pos.long)]} >
+                  <Popup>
+                    <p className={classes.title}>{pos?.title}</p>
+                    <p className={classes.organizer}>{pos?.User?.username}</p>
+                    <p className={classes.organizer}>{pos?.User?.username}</p>
+                    <img
+                      className={classes.image}
+                      alt="gambarcontoh"
+                      src={images[index].image_url}
+                    />
+                    <div className={classes.buttonContainer}>
+                      <p className={classes.button} onClick={() => showDetail(pos?.id)} >Show Detail</p>
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            }
+            )}
           </MarkerClusterGroup>
         </MapContainer>
         <div className={classes.box}>
           <div className={classes.boxwrapper}>
-            <BoxMeetup />
-            <BoxMeetup />
-            <BoxMeetup />
+            {meetup?.map((pos, index) => {
+              const images = JSON.parse(pos?.image);
+              return (
+                <BoxMeetup key={index} onClick={() => showDetail(pos?.id)} title={pos?.title} date={pos?.start_date} time={pos?.start_time} description={pos?.description} image_url={images[index].image_url} />
+              )
+            })}
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

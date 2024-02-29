@@ -22,6 +22,7 @@ const searchControl = new SearchControl({
   style: 'button',
   autoComplete: true,
   autoClose: true,
+  maxMarkers: 1, 
   keepResult: true,
   notFoundMessage: 'Sorry, that address could not be found.',
 });
@@ -136,8 +137,8 @@ const CreateMeetup = ({ meetupLocation }) => {
       formDataSend.append('description', formData.description);
       formDataSend.append('category_id', formData.category_id);
       formDataSend.append('full_address', formData.full_address);
-      formDataSend.append('lat', meetupLocation.x);
-      formDataSend.append('long', meetupLocation.y);
+      formDataSend.append('lat', meetupLocation.y);
+      formDataSend.append('long', meetupLocation.x);
       formDataSend.append('start_date', formData.start_date);
       formDataSend.append('finish_date', formData.finish_date);
       formDataSend.append('start_time', formData.start_time);
