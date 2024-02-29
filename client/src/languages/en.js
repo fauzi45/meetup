@@ -8,6 +8,7 @@ export default {
   app_popup_error_message: 'Sorry, an error has occurred. Please try again later',
   app_popup_close_button_label: 'Close',
 
+  app_home_title: 'Find Meetup Around Indonesia',
   app_login: 'Login',
   app_sign_up: 'Sign Up',
   app_username: 'Username',
@@ -17,6 +18,10 @@ export default {
   app_no_acc: `Don't have an account?`,
   app_login_here: 'Login here',
   app_register_here: 'Register here',
+  app_load_more: 'Load More',
+  app_show_detail: 'Show Detail',
+  app_meetup_empty: 'Meetup data is still empty',
+  app_organized_by: 'Organized by',
 
   //create-meetup
   app_jumbotron_title: 'Start a new meetup',
@@ -36,6 +41,7 @@ export default {
   app_create_meetup_drop: 'Drop Images Here',
   app_create_meetup_drag_drop_or: 'Drag & Drop Image here or',
   app_create_meetup_browse: 'Browse',
+  app_create_meetup_place: 'Name of Place',
 
   app_detail_meetup_member: 'Member',
   app_detail_meetup_when: 'WHEN',

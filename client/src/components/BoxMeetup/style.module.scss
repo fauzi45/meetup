@@ -44,6 +44,9 @@
       -ms-border-radius: 30px;
       -o-border-radius: 30px;
     }
+    .button:hover {
+      background-color: $color-white;
+    }
   }
   .kanan {
     width: 40%;

@@ -6,6 +6,7 @@ import loginSaga from '@pages/Auth/Login/saga';
 import newMeetupSaga from '@pages/User/CreateMeetup/saga';
 import meetupDetailSaga from '@pages/User/DetailMeetup/saga';
 import meetupSaga from '@pages/Home/saga';
+import categorySaga from '@pages/Category/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -14,6 +15,7 @@ export default function* rootSaga() {
     loginSaga(),
     newMeetupSaga(),
     meetupSaga(),
-    meetupDetailSaga()
+    meetupDetailSaga(),
+    categorySaga()
   ]);
 }

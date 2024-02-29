@@ -11,12 +11,18 @@ export default {
   app_login: 'Login',
   app_sign_up: 'Daftar',
 
+  app_home_title: 'Temukan Pertemuan di Seluruh Indonesia',
   app_username: 'Nama Pengguna',
   app_password: 'Kata Sandi',
   app_repeat_password: 'Konfirmasi Kata Sandi',
-  app_no_acc: 'Sudah punya akun?',
+  app_have_acc: 'Already have an account?',
+  app_no_acc: 'Tidak punya akun?',
   app_login_here: 'Login disini',
   app_register_here: 'Daftar disini',
+  app_load_more: 'Tampilkan lebih banyak',
+  app_show_detail: 'Tampilkan Detail',
+  app_meetup_empty: 'Data Meetup masih Kosong',
+  app_organized_by: 'Diselenggarakan oleh',
 
   //create-meetup
   app_jumbotron_title: 'Mulai sebuah meetup baru',
@@ -37,6 +43,7 @@ export default {
   app_create_meetup_drop: 'Lepas Gambar di sini',
   app_create_meetup_drag_drop_or: 'Tarik & Lepas Gambar di sini atau',
   app_create_meetup_browse: 'Pilih',
+  app_create_meetup_place: 'Nama Tempat',
 
   app_detail_meetup_member: 'Anggota',
   app_detail_meetup_when: 'KAPAN',

@@ -1,7 +1,12 @@
-import { GET_MEETUP, RESET_MEETUP, SET_MEETUP } from './constants';
+import { GET_MEETUP, GET_MEETUP_BY_CATEGORY, RESET_MEETUP, SET_MEETUP } from './constants';
 
 export const getMeetup = () => ({
   type: GET_MEETUP,
+});
+
+export const getMeetupByCategory = (category) => ({
+  type: GET_MEETUP_BY_CATEGORY,
+  category
 });
 
 export const setMeetup = (data) => ({

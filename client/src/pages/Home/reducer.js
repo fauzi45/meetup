@@ -14,7 +14,7 @@ const meetupReducer = (state = initialState, action) =>
         draft.meetup = action.data;
         break;
       case RESET_MEETUP:
-        draft.meetupComment = [];
+        draft.meetup = [];
         break;
       default:
         break;

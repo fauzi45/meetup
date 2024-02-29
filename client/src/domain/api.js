@@ -9,7 +9,9 @@ const urls = {
   login: 'auth/login',
 
   listMeetup: 'meetup/user/list',
-
+  listMeetupByCategories: 'meetup/category/user/list',
+  listCategory: 'category/admin/list',
+  
   createMeetup: 'meetup/user/create',
   detailMeetup: 'meetup/user/detail',
   memberMeetup: 'attend/meetup',
@@ -51,6 +53,7 @@ export const login = (data) => {
 export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
 export const listMeetup = () => callAPI(`${urls.listMeetup}`, 'GET');
+export const listMeetupbyCategory = (category) => callAPI(`${urls.listMeetupByCategories}`, 'GET' ,{}, {category});
 export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
 export const memberMeetup = (id) => callAPI(`${urls.memberMeetup}/${id}`, 'GET');
 export const addAttend = (id) => {
@@ -63,3 +66,5 @@ export const memberComment = (id, page) => callAPI(`${urls.commentMeetupLoadMore
 export const addComment = (id, data) => {
   return callAPI(`${urls.addComment}/${id}`, 'POST', {}, {}, data);
 };
+
+export const listCategory = () => callAPI(`${urls.listCategory}`, 'GET');
