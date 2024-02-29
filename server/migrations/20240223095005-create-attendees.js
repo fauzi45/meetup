@@ -15,6 +15,8 @@ module.exports = {
         references: {
           model: "Users",
           key: "id",
+          onDelete: 'CASCADE', 
+          onUpdate: 'CASCADE'
         },
       },
       meetup_id: {
@@ -23,6 +25,8 @@ module.exports = {
         references: {
           model: "Meetups",
           key: "id",
+          onDelete: 'CASCADE', 
+          onUpdate: 'CASCADE'
         },
       },
       createdAt: {

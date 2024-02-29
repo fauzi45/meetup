@@ -15,7 +15,7 @@ module.exports = {
           type: Sequelize.STRING,
         },
         description: {
-          type: Sequelize.STRING,
+          type: Sequelize.TEXT,
         },
         category_id: {
           type: Sequelize.INTEGER,
@@ -27,6 +27,9 @@ module.exports = {
         },
         image: {
           type: Sequelize.JSON,
+        },
+        place: {
+          type: Sequelize.STRING,
         },
         full_address: {
           type: Sequelize.STRING,
