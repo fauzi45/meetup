@@ -5,12 +5,13 @@ import BoxMeetup from '@components/BoxMeetup';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const navigate = useNavigate();
   const style = {
     position: 'absolute',
     top: '50%',
@@ -68,7 +69,7 @@ const Profile = () => {
               </p>
             </div>
             <div>
-              <p className={classes.kirilink}>Edit Profile</p>
+              <p className={classes.kirilink} onClick={() => navigate("/edit-profile")}>Edit Profile</p>
               <p onClick={handleOpen} className={classes.kirilink}>
                 Change Password
               </p>

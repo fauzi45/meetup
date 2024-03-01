@@ -19,6 +19,8 @@ const Navbar = ({ title, locale, theme }) => {
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
   const open = Boolean(menuPosition);
+  const [menuProfile, setMenuProfile] = useState(null);
+  const openProfile = Boolean(menuProfile);
 
   const handleClick = (event) => {
     setMenuPosition(event.currentTarget);
@@ -26,6 +28,14 @@ const Navbar = ({ title, locale, theme }) => {
 
   const handleClose = () => {
     setMenuPosition(null);
+  };
+
+  const handleClickProfile = (event) => {
+    setMenuProfile(event.currentTarget);
+  };
+
+  const handleCloseProfile = () => {
+    setMenuProfile(null);
   };
 
   const handleTheme = () => {
@@ -43,6 +53,10 @@ const Navbar = ({ title, locale, theme }) => {
     navigate('/');
   };
 
+  const handleProfile = () => {
+    navigate("/my-profile");
+  }
+
   return (
     <div className={classes.headerWrapper} data-testid="navbar">
       <div className={classes.contentWrapper}>
@@ -50,13 +64,14 @@ const Navbar = ({ title, locale, theme }) => {
           <div className={classes.title}>Meetup</div>
         </div>
         <div className={classes.toolbar}>
-          <div className={classes.theme} onClick={handleTheme} data-testid="toggleTheme">
-            {theme === 'light' ? <NightsStayIcon /> : <LightModeIcon />}
-          </div>
           <div className={classes.toggle} onClick={handleClick}>
             <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
+          </div>
+          <div className={classes.toggle} onClick={handleClickProfile}>
+            <Avatar className={classes.avatar} />
+            <div className={classes.lang}>uji</div>
           </div>
         </div>
         <Menu open={open} anchorEl={menuPosition} onClose={handleClose}>
@@ -73,6 +88,22 @@ const Navbar = ({ title, locale, theme }) => {
               <Avatar className={classes.menuAvatar} src="/en.png" />
               <div className={classes.menuLang}>
                 <FormattedMessage id="app_lang_en" />
+              </div>
+            </div>
+          </MenuItem>
+        </Menu>
+        <Menu open={openProfile} anchorEl={menuProfile} onClose={handleCloseProfile}>
+          <MenuItem className={classes.menuitem} onClick={() => handleProfile()} selected={locale === 'id'}>
+            <div className={classes.menu}>
+              <div className={classes.menuLang}>
+                My Profile
+              </div>
+            </div>
+          </MenuItem>
+          <MenuItem onClick={() => Logout()} selected={locale === 'id'}>
+            <div className={classes.menu}>
+              <div className={classes.menuLang}>
+                Logout
               </div>
             </div>
           </MenuItem>
