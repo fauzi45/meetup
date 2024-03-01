@@ -1,0 +1,194 @@
+@import '../../styles/base.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  @include directionX;
+  justify-content: center;
+  background-color: #fff;
+  position: relative;
+  .wrapper {
+    @include directionY;
+    width: 90%;
+    align-self: center;
+    .cover {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .headerprofile {
+      width: 100%;
+      border-width: 0.5px 0 0.5px 0;
+      border-style: solid;
+      justify-content: center;
+      border-color: grey;
+      gap: 1rem;
+      @include directionX;
+      .photoProfile {
+        position: absolute;
+        width: 200px;
+        float: left;
+        height: 200px;
+        object-fit: cover;
+        border: 8px solid #fff;
+        border-radius: 10px;
+        margin-top: -5rem;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        @include apply-at-sm-size {
+          left: 10rem;
+        }
+        @include apply-at-xs-size {
+          left: 5rem;
+        }
+        @include apply-at-md-size {
+          left: 5rem;
+        }
+        @include apply-at-xl-size {
+          left: 5rem;
+        }
+        @include apply-at-lg-size {
+          left: 5rem;
+        }
+      }
+      .child {
+        font-size: 16px;
+        padding: 1rem 0;
+        cursor: pointer;
+        font-weight: 600;
+        border-bottom: 10px $color-yellow solid;
+
+        @include apply-at-xs-size {
+          display: none;
+        }
+        @include apply-at-lg-size {
+          display: block;
+        }
+      }
+      .active {
+        font-weight: 600;
+        border-bottom: 10px $color-yellow solid;
+      }
+    }
+    .contentProfile {
+      justify-content: end;
+      width: 100%;
+      @include apply-at-sm-size {
+        @include directionY;
+        padding: 9rem 0;
+      }
+      @include apply-at-xs-size {
+        @include directionY;
+        padding: 9rem 0;
+      }
+      @include apply-at-md-size {
+        @include directionY;
+        padding: 7rem 0;
+      }
+      @include apply-at-xl-size {
+        @include directionX;
+        padding: 3rem 0;
+      }
+      @include apply-at-lg-size {
+        @include directionX;
+        padding: 3rem 0;
+      }
+      .kiri {
+        gap: 1rem;
+        @include directionY;
+        padding: 0 2rem;
+
+        @include apply-at-xs-size {
+          width: 80%;
+          align-items: center;
+          border-right: 0px solid grey;
+        }
+        @include apply-at-md-size {
+          width: 90%;
+          align-items: center;
+          border-right: 0px solid grey;
+        }
+        @include apply-at-sm-size {
+          width: 85%;
+          align-items: center;
+          border-right: 0px solid grey;
+        }
+
+        @include apply-at-xl-size {
+          width: 25%;
+          align-items: baseline;
+          border-right: 2px solid grey;
+        }
+        @include apply-at-lg-size {
+          width: 25%;
+          align-items: baseline;
+          border-right: 2px solid grey;
+        }
+        .name {
+          font-weight: 600;
+        }
+        .kiritext {
+          font-size: 16px;
+          @include directionX;
+          @include apply-at-md-size {
+            text-align: center;
+          }
+          @include apply-at-sm-size {
+            text-align: center;
+          }
+          @include apply-at-xs-size {
+            text-align: center;
+          }
+          @include apply-at-xl-size {
+            text-align: left;
+          }
+          @include apply-at-lg-size {
+            text-align: left;
+          }
+        }
+        .kirilink {
+          font-size: 16px;
+          color: blue;
+        }
+        .kirilink:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+      .headerprofileMobile {
+        width: 100%;
+        border-width: 0.5px 0 0.5px 0;
+        border-style: solid;
+        justify-content: center;
+        border-color: grey;
+        gap: 1rem;
+        @include apply-at-xs-size {
+          display: block;
+          @include directionX;
+          justify-content: start;
+        }
+        @include apply-at-lg-size {
+          display: none;
+        }
+        .child {
+          font-size: 16px;
+          padding: 1rem 0;
+          cursor: pointer;
+          font-weight: 600;
+          border-bottom: 10px $color-yellow solid;
+        }
+      }
+      .kanan {
+        width: 72%;
+        padding: 0 1rem;
+        @include directionY;
+      }
+    }
+  }
+}
