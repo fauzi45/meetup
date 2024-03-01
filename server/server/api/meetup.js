@@ -29,12 +29,10 @@ const listMeetupUser = async (req, res) => {
 const listMeetupByDateUser = async (req, res) => {
   try {
     const dataToken = req.body.dataToken;
-    const startDate = req.query.startDate;
-    const finishDate = req.query.finishDate;
+    const date = req.query.date;
     const response = await meetupHelper.getMeetupListHelperbyDateUser(
       dataToken,
-      startDate,
-      finishDate
+      date,
     );
     return res.send({
       message: "Meetup data by Date received successfully",

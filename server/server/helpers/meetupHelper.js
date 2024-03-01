@@ -45,7 +45,7 @@ const getMeetupListHelperUser = async (dataToken) => {
   }
 };
 
-const getMeetupListHelperbyDateUser = async (dataToken, startDate, finishDate) => {
+const getMeetupListHelperbyDateUser = async (dataToken, date) => {
   try {
     const checkAuthorization = await db.User.findOne({
       where: { id: dataToken.id },
@@ -69,9 +69,7 @@ const getMeetupListHelperbyDateUser = async (dataToken, startDate, finishDate) =
         },
       ],
       where: {
-        start_date: {
-          [Op.between]: [startDate, finishDate],
-        },
+        start_date: date
       },
     });
     if (_.isEmpty(checkMeetup)) {
