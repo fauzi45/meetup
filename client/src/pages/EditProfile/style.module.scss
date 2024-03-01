@@ -1,0 +1,117 @@
+@import '../../styles/base.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  @include directionX;
+  justify-content: center;
+  padding: 2rem 0;
+  .wrapper {
+    box-shadow: 2px;
+    width: 70%;
+    @include directionY;
+    background-color: #fff;
+    gap: 2rem;
+    padding: 0 0 2rem 0;
+    .title {
+      @include directionX;
+      font-weight: 700;
+      padding: 1rem;
+      justify-content: center;
+    }
+    .containercontent {
+      width: 100%;
+      @include apply-at-sm-size {
+        @include directionY;
+      }
+      @include apply-at-xs-size {
+        @include directionY;
+      }
+      @include apply-at-md-size {
+        @include directionY;
+      }
+      @include apply-at-xl-size {
+        @include directionX;
+      }
+      @include apply-at-lg-size {
+        @include directionX;
+      }
+      .kiri {
+        @include apply-at-sm-size {
+          width: 100%;
+        }
+        @include apply-at-xs-size {
+          width: 100%;
+          border-right: 0px solid grey;
+          border-bottom: 2rem solid #e8eef1;
+          padding-bottom: 1rem;
+        }
+        @include apply-at-md-size {
+          width: 100%;
+        }
+        @include apply-at-xl-size {
+          width: 35%;
+        }
+        @include apply-at-lg-size {
+          border-right: 1px solid grey;
+          width: 35%;
+          border-bottom: 0rem solid #e8eef1;
+        }
+        @include directionY;
+        align-items: center;
+        .kiriContainer {
+          @include directionY;
+          gap: 1rem;
+          .img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+          }
+          .name {
+            font-weight: 600;
+            font-size: 18px;
+          }
+          .location {
+            @include directionX;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+          }
+        }
+      }
+      .kanan {
+        @include directionY;
+        padding: 0 2rem;
+        gap: 1rem;
+        @include apply-at-xs-size {
+          width: 75%;
+            padding-top: 1rem;
+        }
+        @include apply-at-sm-size {
+          width: 85%;
+        }
+        @include apply-at-md-size {
+          width: 85%;
+        }
+        @include apply-at-xl-size {
+          width: 65%;
+        }
+        @include apply-at-lg-size {
+          width: 65%;
+          padding-top: 0rem;
+        }
+        .input {
+          height: 30px;
+        }
+      }
+    }
+  }
+}

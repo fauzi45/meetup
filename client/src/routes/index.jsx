@@ -1,9 +1,11 @@
 import MainLayout from '@layouts/MainLayout';
 import Login from '@pages/Auth/Login';
 import Register from '@pages/Auth/Register';
+import EditProfile from '@pages/EditProfile';
 
 import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
+import Profile from '@pages/Profile';
 import CreateMeetup from '@pages/User/CreateMeetup';
 import DetailMeetup from '@pages/User/DetailMeetup';
 
@@ -43,6 +45,21 @@ const routes = [
     component: DetailMeetup,
     layout: MainLayout,
   },
+  {
+    path: '/my-profile',
+    name: 'Profile',
+    protected: false,
+    component: Profile,
+    layout: MainLayout,
+  },
+  {
+    path: '/edit-profile',
+    name: 'Edit Profile',
+    protected: false,
+    component: EditProfile,
+    layout: MainLayout,
+  },
+  
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];
 
