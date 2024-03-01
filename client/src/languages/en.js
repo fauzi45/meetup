@@ -22,6 +22,8 @@ export default {
   app_show_detail: 'Show Detail',
   app_meetup_empty: 'Meetup data is still empty',
   app_organized_by: 'Organized by',
+  app_meetup_select_date: 'Select Date',
+  app_meetup_submit: 'Submit',
 
   //create-meetup
   app_jumbotron_title: 'Start a new meetup',

@@ -2,5 +2,6 @@ export const GET_MEETUP = 'GET_MEETUP';
 export const SET_MEETUP = 'SET_MEETUP';
 
 export const GET_MEETUP_BY_CATEGORY = 'GET_MEETUP_BY_CATEGORY';
+export const GET_MEETUP_BY_DATE = 'GET_MEETUP_BY_DATE';
 
 export const RESET_MEETUP = 'RESET_MEETUP';

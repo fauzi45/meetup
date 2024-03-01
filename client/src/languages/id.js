@@ -23,6 +23,8 @@ export default {
   app_show_detail: 'Tampilkan Detail',
   app_meetup_empty: 'Data Meetup masih Kosong',
   app_organized_by: 'Diselenggarakan oleh',
+  app_meetup_select_date: 'Pilih Tanggal',
+  app_meetup_submit: "Kirim",
 
   //create-meetup
   app_jumbotron_title: 'Mulai sebuah meetup baru',

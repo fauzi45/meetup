@@ -90,11 +90,7 @@
         @include directionX;
         justify-content: center;
         gap: 1rem;
-        .date {
-          z-index: 99;
-          width: 100%;
-          height: 30px;
-        }
+        align-items: center;
       }
       .category {
         @include directionX;

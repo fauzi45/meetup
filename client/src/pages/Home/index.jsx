@@ -6,7 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import classes from './style.module.scss';
 import BoxMeetup from '@components/BoxMeetup';
 import { createStructuredSelector } from 'reselect';
-import { getMeetup, getMeetupByCategory, resetMeetup } from './actions';
+import { getMeetup, getMeetupByCategory, getMeetupByDate, resetMeetup } from './actions';
 import { useEffect } from 'react';
 import { selectMeetup } from './selectors';
 import { useNavigate } from 'react-router-dom';
@@ -17,13 +17,13 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Button from '@components/Button';
 
 const Home = ({ meetup, category }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('');
-  const [startDate, setStartDate] = useState();
-
+  const [date, setDate] = useState();
 
   useEffect(() => {
     dispatch(resetMeetup());
@@ -38,6 +38,10 @@ const Home = ({ meetup, category }) => {
   const handleActive = (value) => {
     setActiveCategory(value);
     dispatch(getMeetupByCategory(value));
+  };
+
+  const handleDate = (value) => {
+    dispatch(getMeetupByDate(value));
   };
 
   return (
@@ -92,8 +96,12 @@ const Home = ({ meetup, category }) => {
         </MapContainer>
         <div className={classes.box}>
           <div className={classes.dateContainer}>
-            <DatePicker placeholderText="Select Start Date" className={classes.date} selected={startDate} onChange={(date) => setStartDate(date)} />
-            <DatePicker placeholderText="Select Finish Date" className={classes.date} selected={startDate} onChange={(date) => setStartDate(date)} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker label={<FormattedMessage id="app_meetup_select_date" />} value={date} onChange={(newValue) => setDate(newValue)} />
+              </DemoContainer>
+            </LocalizationProvider>
+            <Button text={<FormattedMessage id="app_meetup_submit" />} onClick={() => handleDate(date)} />
           </div>
           <div className={classes.category}>
             {category?.map((categories, index) => (

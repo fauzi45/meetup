@@ -10,6 +10,7 @@ const urls = {
 
   listMeetup: 'meetup/user/list',
   listMeetupByCategories: 'meetup/category/user/list',
+  listMetupByDate: 'meetup/date/user/list',
   listCategory: 'category/admin/list',
   
   createMeetup: 'meetup/user/create',
@@ -54,6 +55,7 @@ export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
 export const listMeetup = () => callAPI(`${urls.listMeetup}`, 'GET');
 export const listMeetupbyCategory = (category) => callAPI(`${urls.listMeetupByCategories}`, 'GET' ,{}, {category});
+export const listMeetupbyDate = (date) => callAPI(`${urls.listMetupByDate}`, 'GET' ,{}, {date});
 export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
 export const memberMeetup = (id) => callAPI(`${urls.memberMeetup}/${id}`, 'GET');
 export const addAttend = (id) => {
