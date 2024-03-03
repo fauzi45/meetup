@@ -84,7 +84,7 @@ const Home = ({ meetup, category }) => {
                       <p className={classes.organizer}>
                         <FormattedMessage id="app_organized_by" />: {pos?.User?.username}
                       </p>
-                      <img className={classes.image} alt="gambarcontoh" src={images[index].image_url} />
+                      <img className={classes.image} alt="gambarcontoh" src={images[index]?.image_url} />
                       <div className={classes.buttonContainer}>
                         <p className={classes.button} onClick={() => showDetail(pos?.id)}>
                           {' '}
@@ -130,7 +130,7 @@ const Home = ({ meetup, category }) => {
                     date={pos?.start_date}
                     time={pos?.start_time}
                     description={pos?.description}
-                    image_url={images[index].image_url}
+                    image_url={images[index]?.image_url}
                   />
                 );
               })
