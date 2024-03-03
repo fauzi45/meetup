@@ -2,12 +2,12 @@ import Button from '@components/Button';
 import classes from './style.module.scss';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Jumbotron from '@components/Jumbotron';
-import { useMap, MapContainer, TileLayer } from 'react-leaflet';
+import { useMap, MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { createStructuredSelector } from 'reselect';
 import './react-leaflet-geosearch.css';
 import { useDispatch, connect } from 'react-redux';
-import { addNewMeetup, setLocation } from './action';
+import { addNewMeetup, deleteImages, setLocation } from './action';
 import { selectLocationMeetup } from './selector';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -15,7 +15,10 @@ import { useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getDetailMeetup, resetCommentMeetup } from '../DetailMeetup/actions';
+import { selectMeetupDetail } from '../DetailMeetup/selector';
+import { selectCategory } from '@pages/Category/selector';
 
 const provider = new OpenStreetMapProvider();
 const searchControl = new SearchControl({
@@ -52,13 +55,14 @@ const SearchField = ({ searchControl }) => {
   }, []);
 };
 
-const CreateMeetup = ({ meetupLocation }) => {
+const CreateMeetup = ({ meetupLocation, meetupDetail, listCategory }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const intl = useIntl();
   const [image, setImage] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -72,6 +76,46 @@ const CreateMeetup = ({ meetupLocation }) => {
     finish_time: '',
     capacity: '',
   });
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getDetailMeetup(id, () => navigate('/notfound/error')));
+    } else {
+      dispatch(resetCommentMeetup());
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (meetupDetail && meetupDetail.image && meetupDetail !== 0) {
+      setFormData({
+        title: meetupDetail?.title,
+        description: meetupDetail?.description,
+        category_id: meetupDetail?.category_id,
+        place: meetupDetail?.place,
+        full_address: meetupDetail?.full_address,
+        start_date: meetupDetail?.start_date,
+        finish_date: meetupDetail?.finish_date,
+        start_time: meetupDetail?.start_time,
+        finish_time: meetupDetail?.finish_time,
+        capacity: meetupDetail?.capacity,
+      });
+      setImage(JSON.parse(meetupDetail?.image));
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        category_id: '',
+        place: '',
+        full_address: '',
+        start_date: '',
+        finish_date: '',
+        start_time: '',
+        finish_time: '',
+        capacity: '',
+      });
+    }
+  }, [meetupDetail]);
+
 
   useEffect(() => {
     dispatch(setLocation(null));
@@ -103,13 +147,23 @@ const CreateMeetup = ({ meetupLocation }) => {
     setImage((prevImages) => [...prevImages, ...files]);
   }
 
-  function deleteImage(index) {
-    const imageArray = Array.from(image);
-    const filtered = imageArray.filter((_, i) => i !== index);
-    setImage(filtered);
+  console.log(image)
+
+  function deleteImage(imageData) {
+    const payload = {
+      image_id: imageData.image_id,
+    }
+    if (id) {
+      dispatch(deleteImages(id, payload, () => {
+        dispatch(getDetailMeetup(id));
+      }));
+    } else {
+      const imageArray = Array.from(image);
+      const filtered = imageArray.filter((_, i) => i !== imageData);
+      setImage(filtered);
+    }
   }
 
-  console.log(image);
   const submitData = () => {
     if (!formData.title) {
       toast.error('The Title cannot be empty');
@@ -154,12 +208,16 @@ const CreateMeetup = ({ meetupLocation }) => {
       Array.from(image).forEach((file, index) => {
         formDataSend.append(`image`, file);
       });
-      dispatch(
-        addNewMeetup(formDataSend, () => {
-          toast.success('Meetup Successfully created');
-          navigate('/');
-        })
-      );
+      if (id) {
+
+      } else {
+        dispatch(
+          addNewMeetup(formDataSend, () => {
+            toast.success('Meetup Successfully created');
+            navigate('/');
+          })
+        );
+      }
     }
   };
   return (
@@ -193,18 +251,23 @@ const CreateMeetup = ({ meetupLocation }) => {
           onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
           className={classes.inputTitle}
         >
-          <option value="1">Hiking</option>
-          <option value="1">Internet</option>
+          <option value="" hidden>Pilih kategori</option>
+          {listCategory?.map(category => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
         </select>
         <div className={classes.subTitle}>
           <FormattedMessage id="app_create_meetup_location" />
         </div>
-        <MapContainer className={classes.maps} center={[51.505, -0.09]} zoom={15} scrollWheelZoom={false}>
+        <MapContainer className={classes.maps} center={[51.505, -0.09]} zoom={7} scrollWheelZoom={true}>
           <SearchField searchControl={searchControl} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          {meetupDetail?.lat && meetupDetail?.long && (
+            <Marker position={[meetupDetail?.lat, meetupDetail?.long]} />
+          )}
         </MapContainer>
         <br />
         <div className={classes.subTitle}>
@@ -301,14 +364,15 @@ const CreateMeetup = ({ meetupLocation }) => {
             />
           </div>
           <div className={classes.container}>
-            {image.map((image, index) => (
-              <div className={classes.image} key={index}>
-                <span className={classes.delete} onClick={() => deleteImage(index)}>
-                  &times;
-                </span>
-                <img src={URL.createObjectURL(image)} alt={image.name} />
-              </div>
-            ))}
+            {
+              image.map((imageData, index) => (
+                <div className={classes.image} key={index}>
+                  <span className={classes.delete} onClick={() => deleteImage(imageData)}>
+                    &times;
+                  </span>
+                  <img src={meetupDetail ? imageData.image_url || URL.createObjectURL(imageData) : URL.createObjectURL(imageData)} alt={imageData.name} />
+                </div>
+              ))}
           </div>
         </div>
         <div className={classes.post}>
@@ -322,6 +386,8 @@ const CreateMeetup = ({ meetupLocation }) => {
 
 const mapStateToProps = createStructuredSelector({
   meetupLocation: selectLocationMeetup,
+  meetupDetail: selectMeetupDetail,
+  listCategory: selectCategory
 });
 
 export default connect(mapStateToProps)(CreateMeetup);

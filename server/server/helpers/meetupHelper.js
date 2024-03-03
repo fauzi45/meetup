@@ -69,7 +69,7 @@ const getMeetupListHelperbyDateUser = async (dataToken, date) => {
         },
       ],
       where: {
-        start_date: date
+        start_date: date,
       },
     });
     if (_.isEmpty(checkMeetup)) {
@@ -214,9 +214,12 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
     title,
     description,
     category_id,
+    full_address,
     lat,
     long,
-    date,
+    place,
+    start_date,
+    finish_date,
     start_time,
     finish_time,
     capacity,
@@ -233,7 +236,6 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
     const checkMeetup = await db.Meetups.findOne({
       where: { id: id },
     });
-    console.log(title, "<<<<<");
     if (!checkMeetup) {
       return Promise.reject(
         Boom.badRequest("Meetup with this id is doesn't exist")
@@ -248,9 +250,16 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
         category_id: category_id
           ? category_id
           : checkMeetup.dataValues.category_id,
+        full_address: full_address
+          ? full_address
+          : checkMeetup.dataValues.full_address,
         lat: lat ? lat : checkMeetup.dataValues.lat,
         long: long ? long : checkMeetup.dataValues.long,
-        date: date ? date : checkMeetup.dataValues.date,
+        place: place ? place : checkMeetup.dataValues.place,
+        start_date: start_date ? start_date : checkMeetup.dataValues.start_date,
+        finish_date: finish_date
+          ? finish_date
+          : checkMeetup.dataValues.finish_date,
         start_time: start_time ? start_time : checkMeetup.dataValues.start_time,
         finish_time: finish_time
           ? finish_time
@@ -268,6 +277,46 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
   }
 };
 
+const deleteImageMeetupHelper = async (id, dataToken, image_id) => {
+  try {
+    const checkAuthorization = await db.User.findOne({
+      where: { id: dataToken.id },
+    });
+    if (_.isEmpty(checkAuthorization)) {
+      return Promise.reject(Boom.unauthorized("You are not authorized"));
+    }
+    const checkAuthorizationMeetup = await db.Meetups.findOne({
+      where: { organizer_id: dataToken.id },
+    });
+
+    if (_.isEmpty(checkAuthorizationMeetup)) {
+      return Promise.reject(
+        Boom.unauthorized("You are not authorized to delete this data")
+      );
+    }
+    const checkMeetup = await db.Meetups.findOne({
+      where: { id: id },
+    });
+    if (!checkMeetup) {
+      return Promise.reject(
+        Boom.badRequest("Meetup with this id is doesn't exist")
+      );
+    }
+    imageList = JSON.parse(checkMeetup.image);
+    const filteredImagelist = imageList.filter(
+      (image) => image.image_id !== image_id
+    );
+    await cloudinaryDeleteImg(image_id, "image");
+    await db.Meetups.update({ image: filteredImagelist }, { where: { id } });
+    return Promise.resolve(true);
+  } catch (err) {
+    console.log([fileName, "deleteMeetupHelper", "ERROR"], {
+      info: `${err}`,
+    });
+    return Promise.reject(GeneralHelper.errorResponse(err));
+  }
+};
+
 const deleteMeetupHelperUser = async (id, dataToken) => {
   try {
     const checkAuthorization = await db.User.findOne({
@@ -279,6 +328,7 @@ const deleteMeetupHelperUser = async (id, dataToken) => {
     const checkAuthorizationMeetup = await db.Meetups.findOne({
       where: { organizer_id: dataToken.id },
     });
+
     if (_.isEmpty(checkAuthorizationMeetup)) {
       return Promise.reject(
         Boom.unauthorized("You are not authorized to delete this data")
@@ -315,4 +365,5 @@ module.exports = {
   getMeetupDetailHelperUser,
   deleteMeetupHelperUser,
   updateMeetupUser,
+  deleteImageMeetupHelper,
 };

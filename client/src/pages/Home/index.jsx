@@ -18,6 +18,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '@components/Button';
+import { getMyProfile, resetMyProfile } from '@pages/Profile/actions';
 
 const Home = ({ meetup, category }) => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const Home = ({ meetup, category }) => {
   const [date, setDate] = useState();
 
   useEffect(() => {
+    dispatch(resetMyProfile());
+    dispatch(getMyProfile());
     dispatch(resetMeetup());
     dispatch(getMeetup());
     dispatch(getCategory());
@@ -104,15 +107,16 @@ const Home = ({ meetup, category }) => {
             <Button text={<FormattedMessage id="app_meetup_submit" />} onClick={() => handleDate(date)} />
           </div>
           <div className={classes.category}>
-            {category?.map((categories, index) => (
-              <div
-                key={index}
-                onClick={() => handleActive(categories?.name)}
-                className={activeCategory === categories?.name ? classes.active : classes.button}
-              >
-                {categories?.name}
-              </div>
-            ))}
+            {category &&
+              Array.isArray(category) && category?.map((categories, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleActive(categories?.name)}
+                  className={activeCategory === categories?.name ? classes.active : classes.button}
+                >
+                  {categories?.name}
+                </div>
+              ))}
           </div>
           <div className={classes.boxwrapper}>
             {meetup && Array.isArray(meetup) && meetup.length > 0 ? (

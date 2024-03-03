@@ -27,8 +27,10 @@ import { createStructuredSelector } from 'reselect';
 import { selectCommentMeetup, selectMeetupDetail, selectMemberMeetup } from './selector';
 import toast, { Toaster } from 'react-hot-toast';
 import { formatDate } from '@utils/convertDate';
+import { selectMyProfile } from '@pages/Profile/selector';
+import { getMyProfile } from '@pages/Profile/actions';
 
-const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
+const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, myProfile, token }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
   const { id } = useParams();
@@ -46,14 +48,15 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
 
   const showLoadMoreButton = meetupComment?.length + 1 > commentsToShow;
 
-  const visibleComments = meetupComment?.slice(0, commentsToShow);
+  const visibleComments = Array.isArray(meetupComment) ?  meetupComment?.slice(0, commentsToShow) : {};
 
-  const dataToken = jwtDecode(token);
+  const dataToken = token ? jwtDecode(token) : {};
 
   useEffect(() => {
     dispatch(getDetailMeetup(id, () => navigate('/notfound/error')));
     dispatch(getMemberMeetup(id));
     dispatch(resetCommentMeetup());
+    dispatch(getMyProfile());
   }, [dispatch]);
 
   useEffect(() => {
@@ -166,7 +169,6 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
   const handleMap = () => {
     if (meetupDetail && meetupDetail?.lat && meetupDetail?.long) {
       const mapUrl = `https://www.google.com/maps?q=${meetupDetail?.lat},${meetupDetail?.long}`;
-
       window.open(mapUrl, '_blank');
     } else {
       console.error('Data latitude atau longitude tidak tersedia');
@@ -225,7 +227,8 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                 </p>
               ) : (
                 <div className={classes.organizermember}>
-                  {meetupMember.slice(0, 3).map((name, index) => (
+                  {meetupMember && meetupMember?.length > 0 &&
+                  meetupMember.slice(0, 3).map((name, index) => (
                     <MeetupMember key={index} image={name?.User?.image_url} name={name?.User?.username} />
                   ))}
                   {meetupMember?.length > 3 && (
@@ -246,7 +249,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
               <div className={classes.mycomment}>
                 <Avatar
                   className={classes.menuAvatar}
-                  src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/10/4/7fbb77c0-1bfc-4f10-8c87-e80e8600e211.jpg"
+                  src={myProfile?.image_url}
                 />
                 <div className={classes.inputContainer}>
                   <input
@@ -261,7 +264,8 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </button>
                 </div>
               </div>
-              {visibleComments?.map((comment, index) => (
+              {Array.isArray(visibleComments) && 
+              visibleComments.map((comment, index) => (
                 <div className={classes.publicComment} key={index}>
                   <Avatar className={classes.menuAvatar} src={comment?.User?.image_url} />
                   <div className={classes.publicontainer}>
@@ -276,14 +280,13 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
               {showLoadMoreButton && <Button onClick={handleLoadMore} text={<FormattedMessage id="app_load_more" />} />}
             </div>
           </div>
-
           <div className={classes.kanan}>
             <div className={classes.when}>
               {meetupDetail?.organizer_id === dataToken?.id ? (
                 ''
               ) : dataToken?.id === 1 ? (
                 ''
-              ) : meetupMember?.some((m) => m.user_id === dataToken?.id) ? (
+              ) : meetupMember && meetupMember?.length > 0 && meetupMember?.some((m) => m.user_id === dataToken?.id) ? (
                 <Button
                   onClick={() => handleDeleteAttend(id)}
                   text={<FormattedMessage id="app_detai_meetup_attended" />}
@@ -332,12 +335,12 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
             </div>
             <div className={classes.commentMobile}>
               <p className={classes.title}>
-                <FormattedMessage id="app_detail_meetup_comment" /> ({meetupComment?.length})
+                <FormattedMessage id="app_detail_meetup_comment" />
               </p>
               <div className={classes.mycomment}>
                 <Avatar
                   className={classes.menuAvatar}
-                  src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/10/4/7fbb77c0-1bfc-4f10-8c87-e80e8600e211.jpg"
+                  src={myProfile?.image_url}
                 />
                 <div className={classes.inputContainer}>
                   <input
@@ -350,7 +353,7 @@ const DetailMeetup = ({ meetupDetail, meetupMember, meetupComment, token }) => {
                   </button>
                 </div>
               </div>
-              {meetupComment?.map((comment, index) => (
+              {Array.isArray(visibleComments) &&  visibleComments?.map((comment, index) => (
                 <div className={classes.publicComment} key={index}>
                   <Avatar className={classes.menuAvatar} src={comment?.User?.image_url} />
                   <div className={classes.publicontainer}>
@@ -375,6 +378,7 @@ DetailMeetup.propTypes = {
   meetupDetail: PropTypes.object,
   meetupMember: PropTypes.array,
   meetupComment: PropTypes.array,
+  myProfile: PropTypes.object,
   token: PropTypes.string,
 };
 
@@ -382,6 +386,7 @@ const mapStateToProps = createStructuredSelector({
   meetupDetail: selectMeetupDetail,
   meetupMember: selectMemberMeetup,
   meetupComment: selectCommentMeetup,
+  myProfile: selectMyProfile,
   token: selectToken,
 });
 

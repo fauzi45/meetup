@@ -1,3 +1,7 @@
 export const SET_LOCATION = 'SET_LOCATION';
 
+export const DELETE_IMAGE_MEETUP = 'DELETE_IMAGE_MEETUP';
+
 export const ADD_NEW_MEETUP = 'ADD_NEW_MEETUP'
+
+export const UPDATE_MEETUP = 'UPDATE_MEETUP';

@@ -2,6 +2,14 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import toast, { Toaster } from 'react-hot-toast';
 
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { IconButton } from '@mui/material';
+
 import Button from '@components/Button';
 import classes from './style.module.scss';
 import encryptPayload from '@utils/encryptionHelper';
@@ -16,6 +24,8 @@ const Register = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setconfirmPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const intl = useIntl();
 
   const isValidEmail = (email) => {
@@ -56,6 +66,18 @@ const Register = () => {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.box}>
@@ -87,23 +109,55 @@ const Register = () => {
             <p className={classes.text}>
               <FormattedMessage id="app_password" />
             </p>
-            <input
-              className={classes.input}
-              type="password"
-              placeholder={intl.formatMessage({ id: 'app_password' })}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <FormControl className={classes.inputPassword} fullWidth variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password"><FormattedMessage id="app_password" /></InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
           </div>
           <div className={classes.group}>
             <p className={classes.text}>
               <FormattedMessage id="app_repeat_password" />
             </p>
-            <input
-              className={classes.input}
-              type="password"
-              placeholder={intl.formatMessage({ id: 'app_repeat_password' })}
-              onChange={(e) => setconfirmPassword(e.target.value)}
-            />
+            <FormControl className={classes.inputPassword} fullWidth variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-confirm-password"><FormattedMessage id="app_profile_change_password_confirm_password" /></InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-confirm-password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setconfirmPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password confirm visibility"
+                      onClick={handleClickShowConfirmPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {confirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Confirm Password"
+              />
+            </FormControl>
           </div>
           <Button onClick={onSubmit} text={<FormattedMessage id="app_sign_up" />} />
           <div className={classes.group}>

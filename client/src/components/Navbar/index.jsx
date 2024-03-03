@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -11,10 +12,13 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
 
 import { setLocale, setTheme } from '@containers/App/actions';
-
+import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
+import { selectMyProfile } from '@pages/Profile/selector';
+import { setLogin, setToken } from '@containers/Client/actions';
+import { selectToken } from '@containers/Client/selectors';
 
-const Navbar = ({ title, locale, theme }) => {
+const Navbar = ({ title, locale, theme, myProfile, token }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
@@ -57,6 +61,13 @@ const Navbar = ({ title, locale, theme }) => {
     navigate("/my-profile");
   }
 
+  const handleLogout = () => {
+    dispatch(setToken(null));
+    dispatch(setLogin(false));
+  }
+
+  const dataToken = token ? jwtDecode(token) : {};
+
   return (
     <div className={classes.headerWrapper} data-testid="navbar">
       <div className={classes.contentWrapper}>
@@ -64,15 +75,19 @@ const Navbar = ({ title, locale, theme }) => {
           <div className={classes.title}>Meetup</div>
         </div>
         <div className={classes.toolbar}>
+          <div className={classes.theme} onClick={handleTheme} data-testid="toggleTheme">
+            {theme === 'light' ? <NightsStayIcon /> : <LightModeIcon />}
+          </div>
           <div className={classes.toggle} onClick={handleClick}>
             <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
           </div>
-          <div className={classes.toggle} onClick={handleClickProfile}>
-            <Avatar className={classes.avatar} />
-            <div className={classes.lang}>uji</div>
-          </div>
+          {token ? <div className={classes.toggle} onClick={handleClickProfile}>
+            <Avatar className={classes.avatar} src={myProfile?.image_url} />
+            <div className={classes.name}>{myProfile?.username}</div>
+          </div> : ""}
+
         </div>
         <Menu open={open} anchorEl={menuPosition} onClose={handleClose}>
           <MenuItem onClick={() => onSelectLang('id')} selected={locale === 'id'}>
@@ -96,14 +111,14 @@ const Navbar = ({ title, locale, theme }) => {
           <MenuItem className={classes.menuitem} onClick={() => handleProfile()} selected={locale === 'id'}>
             <div className={classes.menu}>
               <div className={classes.menuLang}>
-                My Profile
+                <FormattedMessage id="app_profile_my" />
               </div>
             </div>
           </MenuItem>
-          <MenuItem onClick={() => Logout()} selected={locale === 'id'}>
+          <MenuItem onClick={() => handleLogout()} selected={locale === 'id'}>
             <div className={classes.menu}>
               <div className={classes.menuLang}>
-                Logout
+                <FormattedMessage id="app_profile_logout" />
               </div>
             </div>
           </MenuItem>
@@ -117,6 +132,12 @@ Navbar.propTypes = {
   title: PropTypes.string,
   locale: PropTypes.string.isRequired,
   theme: PropTypes.string,
+  myProfile: PropTypes.object,
 };
 
-export default Navbar;
+const mapStateToProps = createStructuredSelector({
+  myProfile: selectMyProfile,
+  token: selectToken,
+});
+
+export default connect(mapStateToProps)(Navbar);

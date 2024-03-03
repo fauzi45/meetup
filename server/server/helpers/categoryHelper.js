@@ -25,7 +25,7 @@ const getListCategoryUser = async () => {
 const getListCategoryAdmin = async (dataToken) => {
   try {
     const checkAuthorization = await db.User.findOne({
-      where: { id: dataToken.id, role: 1 },
+      where: { id: dataToken.id },
     });
     if (_.isEmpty(checkAuthorization)) {
       return Promise.reject(
@@ -50,7 +50,7 @@ const getListCategoryAdmin = async (dataToken) => {
 const getDetailCategoryAdmin = async (id,dataToken) => {
   try {
     const checkAuthorization = await db.User.findOne({
-      where: { id: dataToken.id, role: 1 },
+      where: { id: dataToken.id },
     });
     if (_.isEmpty(checkAuthorization)) {
       return Promise.reject(

@@ -32,7 +32,7 @@ const listMeetupByDateUser = async (req, res) => {
     const date = req.query.date;
     const response = await meetupHelper.getMeetupListHelperbyDateUser(
       dataToken,
-      date,
+      date
     );
     return res.send({
       message: "Meetup data by Date received successfully",
@@ -144,6 +144,7 @@ const updateMeetupUser = async (req, res) => {
       full_address,
       lat,
       long,
+      place,
       start_date,
       finish_date,
       start_time,
@@ -159,6 +160,7 @@ const updateMeetupUser = async (req, res) => {
         full_address,
         lat,
         long,
+        place,
         start_date,
         finish_date,
         start_time,
@@ -173,6 +175,28 @@ const updateMeetupUser = async (req, res) => {
     });
   } catch (err) {
     console.log([fileName, "updateMeetupUser", "ERROR"], { info: `${err}` });
+    return res.send(GeneralHelper.errorResponse(err));
+  }
+};
+
+const deleteMeetupImageUser = async (req, res) => {
+  try {
+    const dataToken = req.body.dataToken;
+    Validation.idValidation(req.params);
+    const { id } = req.params;
+    const { image_id } = req.body;
+    const response = await meetupHelper.deleteImageMeetupHelper(
+      id,
+      dataToken,
+      image_id
+    );
+    console.log(image_id,"<<<<<<");
+    return res.status(200).send({
+      message: "Meetup Image data successfully deleted",
+      response,
+    });
+  } catch (err) {
+    console.log([fileName, "deleteMeetup", "ERROR"], { info: `${err}` });
     return res.send(GeneralHelper.errorResponse(err));
   }
 };
@@ -210,5 +234,10 @@ Router.post(
 );
 Router.put("/user/update/:id", Middleware.validateToken, updateMeetupUser);
 Router.delete("/user/delete/:id", Middleware.validateToken, deleteMeetupUser);
+Router.delete(
+  "/user/image/delete/:id",
+  Middleware.validateToken,
+  deleteMeetupImageUser
+);
 
 module.exports = Router;

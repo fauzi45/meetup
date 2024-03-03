@@ -8,11 +8,22 @@ const urls = {
   register: 'auth/register',
   login: 'auth/login',
 
+  myProfile: 'profile',
+  myMeetupCreated: 'profile/my-meetup',
+  myMeetupAttended: 'profile/my-meetup-attend',
+  changeMyProfile: 'profile/update-profile',
+  changePassword: 'profile/update-password',
+  changeProfileImage: 'profile/update-profile-image',
+  updateMeetup: 'meetup/user/update',
+
+  deleteMeetup: 'meetup/user/delete',
+  deleteImageMeetup: 'meetup/user/image/delete',
+
   listMeetup: 'meetup/user/list',
   listMeetupByCategories: 'meetup/category/user/list',
   listMetupByDate: 'meetup/date/user/list',
   listCategory: 'category/admin/list',
-  
+
   createMeetup: 'meetup/user/create',
   detailMeetup: 'meetup/user/detail',
   memberMeetup: 'attend/meetup',
@@ -51,11 +62,29 @@ export const login = (data) => {
   return callAPI(urls.login, 'POST', {}, {}, data);
 };
 
+export const myProfile = () => callAPI(urls.myProfile, 'GET');
+export const myMeetupCreated = () => callAPI(urls.myMeetupCreated, 'GET');
+export const myMeetupAttended = () => callAPI(urls.myMeetupAttended, 'GET');
+export const myUpdateProfile = (payload) => callAPI(urls.changeMyProfile, 'PUT', {}, {}, payload);
+export const changePassword = (payload) => callAPI(urls.changePassword, 'PUT', {}, {}, payload);
+
+export const updateMeetup = (id, data) => callAPI(`${urls.updateMeetup}/${id}`, 'PUT', {}, {}, data);
+export const changeProfileImage = (payload) =>
+  callAPI(urls.changeProfileImage, 'PUT', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, payload);
+
+export const deleteMeetup = (id) => {
+  return callAPI(`${urls.deleteMeetup}/${id}`, 'DELETE');
+};
+
+export const deleteImageMeetup = (id, payload) => {
+  return callAPI(`${urls.deleteImageMeetup}/${id}`, 'DELETE', {}, {}, payload);
+};
+
 export const newMeetup = (data) =>
   callAPI(urls.createMeetup, 'POST', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, data);
 export const listMeetup = () => callAPI(`${urls.listMeetup}`, 'GET');
-export const listMeetupbyCategory = (category) => callAPI(`${urls.listMeetupByCategories}`, 'GET' ,{}, {category});
-export const listMeetupbyDate = (date) => callAPI(`${urls.listMetupByDate}`, 'GET' ,{}, {date});
+export const listMeetupbyCategory = (category) => callAPI(`${urls.listMeetupByCategories}`, 'GET', {}, { category });
+export const listMeetupbyDate = (date) => callAPI(`${urls.listMetupByDate}`, 'GET', {}, { date });
 export const detailMeetup = (id) => callAPI(`${urls.detailMeetup}/${id}`, 'GET');
 export const memberMeetup = (id) => callAPI(`${urls.memberMeetup}/${id}`, 'GET');
 export const addAttend = (id) => {

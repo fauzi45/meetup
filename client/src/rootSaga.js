@@ -7,6 +7,8 @@ import newMeetupSaga from '@pages/User/CreateMeetup/saga';
 import meetupDetailSaga from '@pages/User/DetailMeetup/saga';
 import meetupSaga from '@pages/Home/saga';
 import categorySaga from '@pages/Category/saga';
+import myProfileSaga from '@pages/Profile/saga';
+import changeProfile from '@pages/EditProfile/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -16,6 +18,8 @@ export default function* rootSaga() {
     newMeetupSaga(),
     meetupSaga(),
     meetupDetailSaga(),
-    categorySaga()
+    categorySaga(),
+    myProfileSaga(),
+    changeProfile()
   ]);
 }

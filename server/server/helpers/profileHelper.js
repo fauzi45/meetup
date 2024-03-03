@@ -52,7 +52,7 @@ const getMyMeetupHelper = async (dataToken) => {
       where: { organizer_id: dataToken.id },
     });
     if (_.isEmpty(checkMyMeetup)) {
-      return { message: "Your Meetup is Empty" };
+      return null;
     }
     return Promise.resolve(checkMyMeetup);
   } catch (err) {
@@ -91,7 +91,7 @@ const getMyMeetupAttendHelper = async (dataToken) => {
       ],
     });
     if (_.isEmpty(checkMyMeetup)) {
-      return { message: "Your Attend Meetup is Empty" };
+      return null;
     }
     return Promise.resolve(checkMyMeetup);
   } catch (err) {
@@ -112,9 +112,9 @@ const updateProfileHelper = async (dataToken, username, bio, location) => {
     }
     await db.User.update(
       {
-        username: username ? username : checkTask.dataValues.username,
-        bio: bio ? bio : checkTask.dataValues.bio,
-        location: location ? location : checkTask.dataValues.location,
+        username: username ? username : checkAuthorizationUser.dataValues.username,
+        bio: bio ? bio : checkAuthorizationUser.dataValues.bio,
+        location: location ? location : checkAuthorizationUser.dataValues.location,
       },
       { where: { id: dataToken.id } }
     );
@@ -145,10 +145,10 @@ const updateProfileImageHelper = async (dataToken, dataObject) => {
       {
         image_url: imageResult?.url
           ? imageResult?.url
-          : checkTask.dataValues.image_url,
+          : checkAuthorizationUser.dataValues.image_url,
         image_id: imageResult?.public_id
           ? imageResult?.public_id
-          : checkTask.dataValues.image_id,
+          : checkAuthorizationUser.dataValues.image_id,
       },
       { where: { id: dataToken.id } }
     );
