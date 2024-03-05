@@ -68,7 +68,8 @@ export const myMeetupAttended = () => callAPI(urls.myMeetupAttended, 'GET');
 export const myUpdateProfile = (payload) => callAPI(urls.changeMyProfile, 'PUT', {}, {}, payload);
 export const changePassword = (payload) => callAPI(urls.changePassword, 'PUT', {}, {}, payload);
 
-export const updateMeetup = (id, data) => callAPI(`${urls.updateMeetup}/${id}`, 'PUT', {}, {}, data);
+export const updateMeetup = (id, payload) =>
+  callAPI(`${urls.updateMeetup}/${id}`, 'PUT', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, payload);
 export const changeProfileImage = (payload) =>
   callAPI(urls.changeProfileImage, 'PUT', { 'Content-Type': 'multipart/form-data; charset=UTF-8' }, {}, payload);
 

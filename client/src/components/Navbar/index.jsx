@@ -58,13 +58,17 @@ const Navbar = ({ title, locale, theme, myProfile, token }) => {
   };
 
   const handleProfile = () => {
-    navigate("/my-profile");
-  }
+    navigate('/my-profile');
+  };
 
   const handleLogout = () => {
     dispatch(setToken(null));
     dispatch(setLogin(false));
-  }
+  };
+
+  const handleCreateMeetup = () => {
+    navigate('/create-meetup');
+  };
 
   const dataToken = token ? jwtDecode(token) : {};
 
@@ -75,19 +79,19 @@ const Navbar = ({ title, locale, theme, myProfile, token }) => {
           <div className={classes.title}>Meetup</div>
         </div>
         <div className={classes.toolbar}>
-          <div className={classes.theme} onClick={handleTheme} data-testid="toggleTheme">
-            {theme === 'light' ? <NightsStayIcon /> : <LightModeIcon />}
-          </div>
           <div className={classes.toggle} onClick={handleClick}>
             <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
           </div>
-          {token ? <div className={classes.toggle} onClick={handleClickProfile}>
-            <Avatar className={classes.avatar} src={myProfile?.image_url} />
-            <div className={classes.name}>{myProfile?.username}</div>
-          </div> : ""}
-
+          {token ? (
+            <div className={classes.toggle} onClick={handleClickProfile}>
+              <Avatar className={classes.avatar} src={myProfile?.image_url} />
+              <div className={classes.name}>{myProfile?.username}</div>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <Menu open={open} anchorEl={menuPosition} onClose={handleClose}>
           <MenuItem onClick={() => onSelectLang('id')} selected={locale === 'id'}>
@@ -115,6 +119,16 @@ const Navbar = ({ title, locale, theme, myProfile, token }) => {
               </div>
             </div>
           </MenuItem>
+          {myProfile?.role === 1 ? (
+            <MenuItem onClick={() => handleCreateMeetup()} selected={locale === 'id'}>
+              <div className={classes.menu}>
+                <div className={classes.menuLang}>Tambah Meetup</div>
+              </div>
+            </MenuItem>
+          ) : (
+            ''
+          )}
+
           <MenuItem onClick={() => handleLogout()} selected={locale === 'id'}>
             <div className={classes.menu}>
               <div className={classes.menuLang}>

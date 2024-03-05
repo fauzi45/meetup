@@ -98,7 +98,6 @@ const createMeetupUser = async (req, res) => {
       finish_time,
       capacity,
     } = req.body;
-
     if (req?.fileValidationError)
       return res.status(400).json({ message: req.fileValidationError.message });
     if (!req?.files?.image)
@@ -117,7 +116,7 @@ const createMeetupUser = async (req, res) => {
         start_time,
         finish_time,
         capacity,
-        image: req.files.image,
+        image: req?.files?.image,
       },
       dataToken
     );
@@ -133,8 +132,8 @@ const createMeetupUser = async (req, res) => {
 
 const updateMeetupUser = async (req, res) => {
   try {
+    Validation.imageValidation(req.files);
     Validation.idValidation(req.params);
-    Validation.createMeetupValidation(req.body);
     const { id } = req.params;
     const dataToken = req.body.dataToken;
     const {
@@ -151,6 +150,7 @@ const updateMeetupUser = async (req, res) => {
       finish_time,
       capacity,
     } = req.body;
+
     const response = await meetupHelper.updateMeetupUser(
       id,
       {
@@ -166,6 +166,7 @@ const updateMeetupUser = async (req, res) => {
         start_time,
         finish_time,
         capacity,
+        image: req.files.image,
       },
       dataToken
     );
@@ -190,7 +191,6 @@ const deleteMeetupImageUser = async (req, res) => {
       dataToken,
       image_id
     );
-    console.log(image_id,"<<<<<<");
     return res.status(200).send({
       message: "Meetup Image data successfully deleted",
       response,
@@ -232,7 +232,12 @@ Router.post(
   Middleware.validateToken,
   createMeetupUser
 );
-Router.put("/user/update/:id", Middleware.validateToken, updateMeetupUser);
+Router.put(
+  "/user/update/:id",
+  uploadMedia.fields([{ name: "image" }]),
+  Middleware.validateToken,
+  updateMeetupUser
+);
 Router.delete("/user/delete/:id", Middleware.validateToken, deleteMeetupUser);
 Router.delete(
   "/user/image/delete/:id",

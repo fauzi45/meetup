@@ -40,6 +40,7 @@ const Home = ({ meetup, category }) => {
 
   const handleActive = (value) => {
     setActiveCategory(value);
+    setDate(null);
     dispatch(getMeetupByCategory(value));
   };
 
@@ -130,7 +131,7 @@ const Home = ({ meetup, category }) => {
                     date={pos?.start_date}
                     time={pos?.start_time}
                     description={pos?.description}
-                    image_url={images[index]?.image_url}
+                    image_url={images[0]?.image_url}
                   />
                 );
               })

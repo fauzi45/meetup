@@ -10,17 +10,23 @@ const fileName = "server/api/auth.js";
 const register = async (request, reply) => {
   try {
     const { username, email, password, confirmPassword } = request.body;
+
     const decryptUsername = decryptObject(username);
     const decryptEmail = decryptObject(email);
     const decryptPassword = decryptObject(password);
     const decryptConfirmPosition = decryptObject(confirmPassword);
+    Validation.registerValidation({
+      username: decryptUsername,
+      email: decryptEmail,
+      password: decryptPassword,
+      confirmPassword: decryptConfirmPosition,
+    });
     const response = await AuthHelper.registerUser({
       username: decryptUsername,
       email: decryptEmail,
       password: decryptPassword,
       confirmPassword: decryptConfirmPosition,
     });
-
     return reply.send(response);
   } catch (err) {
     console.log([fileName, "register", "ERROR"], { info: `${err}` });
@@ -33,11 +39,14 @@ const login = async (request, reply) => {
     const { email, password } = request.body;
     const decryptEmail = decryptObject(email);
     const decryptPassword = decryptObject(password);
+    Validation.loginValidation({
+      email: decryptEmail,
+      password: decryptPassword,
+    });
     const response = await AuthHelper.login({
       email: decryptEmail,
       password: decryptPassword,
     });
-
     return reply.send(response);
   } catch (err) {
     console.log([fileName, "login", "ERROR"], { info: `${err}` });

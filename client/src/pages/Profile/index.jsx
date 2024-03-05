@@ -66,6 +66,8 @@ const Profile = ({ myProfile, myMeetupCreated, myMeetupAttended }) => {
     }
   }, [dispatch]);
 
+  console.log(myMeetupCreated)
+
   const showDetail = (id) => {
     navigate(`../meetup/${id}`);
   };
@@ -255,6 +257,7 @@ const Profile = ({ myProfile, myMeetupCreated, myMeetupAttended }) => {
               myMeetupCreated && Array.isArray(myMeetupCreated) && myMeetupCreated?.length > 0 ? (
                 myMeetupCreated?.map((pos, index) => {
                   const images = JSON.parse(pos?.image);
+                  console.log(images,">>>>>")
                   return (
                     <div key={index} className={classes.container}>
                       <div className={classes.kiri}>
@@ -284,7 +287,7 @@ const Profile = ({ myProfile, myMeetupCreated, myMeetupAttended }) => {
                         </div>
                       </div>
                       <div className={classes.kanan}>
-                        <img className={classes.image} src={images[index].image_url} alt="gambarcontoh" />
+                        <img className={classes.image} src={images[0]?.image_url} alt="gambarcontoh" />
                       </div>
                     </div>
                   );
@@ -306,7 +309,7 @@ const Profile = ({ myProfile, myMeetupCreated, myMeetupAttended }) => {
                       date={pos?.Meetup?.start_date}
                       time={pos?.Meetup?.start_time}
                       description={pos?.Meetup?.description}
-                      image_url={images[index].image_url}
+                      image_url={images[index]?.image_url}
                     />
                   );
                 })

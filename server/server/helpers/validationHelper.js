@@ -8,7 +8,6 @@ const registerValidation = (data) => {
     password: Joi.string().min(8).max(20).required().description('Should be between 8-20 characters'),
     confirmPassword: Joi.string().min(8).max(20).required().valid(Joi.ref('password')).description('Should match password')
   });
-
   if (schema.validate(data).error) {
     throw Boom.badRequest(schema.validate(data).error);
   }
@@ -61,7 +60,7 @@ const createMeetupValidation = (data) => {
 
 const imageValidation = (data) => {
   const schema = Joi.object({
-    image: Joi.array().required(),
+    image: Joi.array().optional(),
   });
 
   if (schema.validate(data).error) {

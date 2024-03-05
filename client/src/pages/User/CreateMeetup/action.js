@@ -1,4 +1,4 @@
-import { SET_LOCATION, ADD_NEW_MEETUP, DELETE_IMAGE_MEETUP } from './constants';
+import { SET_LOCATION, ADD_NEW_MEETUP, DELETE_IMAGE_MEETUP, UPDATE_MEETUP } from './constants';
 
 export const setLocation = (payload) => ({
   type: SET_LOCATION,
@@ -17,3 +17,12 @@ export const deleteImages = (id, payload, cb) => ({
   payload,
   cb,
 });
+
+export const updateMeetup = (id, payload, cb) => ({
+  type: UPDATE_MEETUP,
+  id,
+  payload,
+  cb,
+});
+
+

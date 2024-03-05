@@ -42,10 +42,8 @@ const registerUser = async (dataObject) => {
     if (!_.isEmpty(checkEmail)) {
       return Promise.reject(Boom.badRequest("Email has been used"));
     }
-
     const hashedPass = __hashPassword(password);
     await db.User.create({ username, email, password: hashedPass, role: 2 });
-
     return Promise.resolve(true);
   } catch (err) {
     console.log([fileName, "registerUser", "ERROR"], { info: `${err}` });

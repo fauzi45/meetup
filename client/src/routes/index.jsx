@@ -37,6 +37,7 @@ const routes = [
     protected: true,
     component: CreateMeetup,
     layout: MainLayout,
+    organizerOnly: true
   },
   {
     path: '/update-meetup/:id',
@@ -44,6 +45,7 @@ const routes = [
     protected: true,
     component: CreateMeetup,
     layout: MainLayout,
+    organizerOnly: true
   },
   {
     path: '/meetup/:id',

@@ -38,6 +38,7 @@ const getListCategoryAdmin = async (dataToken) => {
     if (_.isEmpty(checkCategory)) {
       return { message: "The Category is Empty" };
     }
+    console.log(checkCategory,"<<<<<")
     return Promise.resolve(checkCategory);
   } catch (err) {
     console.log([fileName, "getListCategoryAdmin", "ERROR"], {

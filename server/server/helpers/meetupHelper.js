@@ -223,7 +223,9 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
     start_time,
     finish_time,
     capacity,
+    image,
   } = dataObject;
+  let imageList = [];
   try {
     const checkAuthorization = await db.Meetups.findOne({
       where: { organizer_id: dataToken.id },
@@ -241,6 +243,20 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
         Boom.badRequest("Meetup with this id is doesn't exist")
       );
     }
+    if (image) {
+      const imageUploadPromises = image.map(async (image) => {
+        const imageResult = await uploadToCloudinary(image, "image");
+        return {
+          image_url: imageResult?.url,
+          image_id: imageResult?.public_id,
+        };
+      });
+      const uploadedImages = await Promise.all(imageUploadPromises);
+      imageList = uploadedImages;
+      console.log(uploadedImages, "<<<<<<<yplo");
+    }
+    console.log(imageList, "<<<<<<<");
+    const imagePrev = JSON.parse(checkMeetup.dataValues.image);
     await db.Meetups.update(
       {
         title: title ? title : checkMeetup.dataValues.title,
@@ -264,6 +280,7 @@ const updateMeetupUser = async (id, dataObject, dataToken) => {
         finish_time: finish_time
           ? finish_time
           : checkMeetup.dataValues.finish_time,
+        image: [...imagePrev, ...imageList],
         capacity: capacity ? capacity : checkMeetup.dataValues.capacity,
       },
       { where: { id: id } }
