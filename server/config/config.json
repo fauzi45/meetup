@@ -9,7 +9,7 @@
   "test": {
     "username": "root",
     "password": null,
-    "database": "blog_db",
+    "database": "db_meetup",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

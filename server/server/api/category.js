@@ -10,20 +10,6 @@ const Middleware = require("../middlewares/authMiddleware");
 
 const fileName = "server/api/category.js";
 
-//user
-const listCategoryUser = async (req, res) => {
-  try {
-    const response = await categoryHelper.getListCategoryUser();
-    return res.send({
-      message: "List Category received successfully",
-      response,
-    });
-  } catch (err) {
-    console.log([fileName, "listCategory", "ERROR"], { info: `${err}` });
-    return res.send(GeneralHelper.errorResponse(err));
-  }
-};
-
 //admin
 const listCategoryAdmin = async (req, res) => {
   try {
@@ -108,8 +94,6 @@ const deleteCategoryAdmin = async (req, res) => {
     }
   };
 
-//user
-Router.get("/user/list", listCategoryUser);
 //admin
 Router.get("/admin/list", Middleware.validateToken, listCategoryAdmin);
 Router.get("/admin/detail/:id", Middleware.validateToken, detailCategoryAdmin);

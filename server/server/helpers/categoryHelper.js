@@ -4,41 +4,17 @@ const GeneralHelper = require("./generalHelper");
 const Boom = require("boom");
 const fileName = "server/helpers/categoryHelper.js";
 
-//user
-const getListCategoryUser = async () => {
-  try {
-    const checkCategory = await db.Category.findAll();
-    if (_.isEmpty(checkCategory)) {
-      return { message: "The Category is Empty" };
-    }
-    return Promise.resolve(checkCategory);
-  } catch (err) {
-    console.log([fileName, "getListCategory", "ERROR"], {
-      info: `${err}`,
-    });
-    return Promise.reject(GeneralHelper.errorResponse(err));
-  }
-};
-
-
 //admin
 const getListCategoryAdmin = async (dataToken) => {
   try {
-    const checkAuthorization = await db.User.findOne({
-      where: { id: dataToken.id },
-    });
-    if (_.isEmpty(checkAuthorization)) {
-      return Promise.reject(
-        Boom.unauthorized("You are not authorized to create this data")
-      );
-    }
     const checkCategory = await db.Category.findAll({
-      paranoid: false
+      paranoid: false,
     });
     if (_.isEmpty(checkCategory)) {
-      return { message: "The Category is Empty" };
+      return Promise.reject(
+        Boom.notFound("The Category is Empty")
+      );
     }
-    console.log(checkCategory,"<<<<<")
     return Promise.resolve(checkCategory);
   } catch (err) {
     console.log([fileName, "getListCategoryAdmin", "ERROR"], {
@@ -48,21 +24,15 @@ const getListCategoryAdmin = async (dataToken) => {
   }
 };
 
-const getDetailCategoryAdmin = async (id,dataToken) => {
+const getDetailCategoryAdmin = async (id, dataToken) => {
   try {
-    const checkAuthorization = await db.User.findOne({
-      where: { id: dataToken.id },
-    });
-    if (_.isEmpty(checkAuthorization)) {
-      return Promise.reject(
-        Boom.unauthorized("You are not authorized to create this data")
-      );
-    }
     const checkCategory = await db.Category.findOne({
       where: { id: id },
     });
     if (_.isEmpty(checkCategory)) {
-      return { message: "Category with this id is doesn't exist" };
+      return Promise.reject(
+        Boom.notFound("Category with this id is doesn't exist")
+      );
     }
     return Promise.resolve(checkCategory);
   } catch (err) {
@@ -76,14 +46,6 @@ const getDetailCategoryAdmin = async (id,dataToken) => {
 const createCategoryAdmin = async (dataObject, dataToken) => {
   const { name } = dataObject;
   try {
-    const checkAuthorization = await db.User.findOne({
-      where: { id: dataToken.id, role: 1 },
-    });
-    if (_.isEmpty(checkAuthorization)) {
-      return Promise.reject(
-        Boom.unauthorized("You are not authorized to create this data")
-      );
-    }
     await db.Category.create({
       name: name,
     });
@@ -96,18 +58,8 @@ const createCategoryAdmin = async (dataObject, dataToken) => {
   }
 };
 
-const updateCategoryAdmin = async (
-  id,
-  name,
-  dataToken
-) => {
+const updateCategoryAdmin = async (id, name, dataToken) => {
   try {
-    const checkAuthorizationUser = await db.User.findOne({
-      where: { id: dataToken.id, role: 1 },
-    });
-    if (_.isEmpty(checkAuthorizationUser)) {
-      return Promise.reject(Boom.unauthorized("You are not authorized"));
-    }
     const checkTask = await db.Category.findOne({
       where: { id: id },
     });
@@ -164,9 +116,6 @@ const deleteCategoryAdmin = async (id, dataToken) => {
 };
 
 module.exports = {
-  //user
-  getListCategoryUser,
-
   //admin
   getListCategoryAdmin,
   getDetailCategoryAdmin,
