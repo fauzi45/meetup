@@ -32,6 +32,11 @@ Start the server (client/server)
   npm start
 ```
 
+## Tech Stack
+
+**Client:** React, Redux, Sass, Material UI
+**Server:** Node, Express, Cloudinary
+
 ## Screenshots
 
 Home Page
