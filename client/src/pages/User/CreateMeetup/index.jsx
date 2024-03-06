@@ -47,7 +47,7 @@ const SearchField = ({ searchControl }) => {
       map.removeLayer(markerRef.current);
     }
     markerRef.current = L.marker(e.latlng).addTo(map); // Update marker using useRef
-    dispatch(setLocation({ x: e.latlng.lat, y: e.latlng.lng }));
+    dispatch(setLocation({ x: e.latlng.lng, y: e.latlng.lat }));
   });
 
   useEffect(() => {

@@ -2,6 +2,7 @@ const db = require("../../models");
 const _ = require("lodash");
 const GeneralHelper = require("./generalHelper");
 const Boom = require("boom");
+const redis = require("../services/redis");
 const fileName = "server/helpers/meetupHelper.js";
 const {
   uploadToCloudinary,
@@ -19,24 +20,34 @@ const getMeetupListHelperUser = async (dataToken) => {
         Boom.unauthorized("You are not authorized to create this data")
       );
     }
-    const checkMeetup = await db.Meetups.findAll({
-      order: [["createdAt", "DESC"]],
-      attributes: { exclude: ["updatedAt"] },
-      include: [
-        {
-          model: db.Category,
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-        },
-        {
-          model: db.User,
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-        },
-      ],
-    });
-    if (_.isEmpty(checkMeetup)) {
-      return null;
+    meetupList = await redis.getKey({ key: "meetup" });
+
+    if (meetupList) {
+      console.log("Meetup list on redis is found");
+
+      meetupList = JSON.parse(meetupList);
+    } else {
+      console.log("Meetup list on redis is not found");
+
+      const meetup = await db.Meetups.findAll({
+        order: [["createdAt", "DESC"]],
+        attributes: { exclude: ["updatedAt"] },
+        include: [
+          {
+            model: db.Category,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: db.User,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+        ],
+      });
+      meetupList = meetup.map((data) => data.dataValues);
+      await redis.setKey({ key: "meetup", value: JSON.stringify(meetupList) });
     }
-    return Promise.resolve(checkMeetup);
+
+    return Promise.resolve(meetupList);
   } catch (err) {
     console.log([fileName, "getMeetupListHelperUser", "ERROR"], {
       info: `${err}`,
